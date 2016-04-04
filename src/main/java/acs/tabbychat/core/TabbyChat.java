@@ -79,7 +79,7 @@ public class TabbyChat {
             .excludeFieldsWithoutExposeAnnotation()
             .enableComplexMapKeySerialization()
             // Register chat
-            .registerTypeAdapter(ITextComponent.class, new ITextComponent.Serializer())
+            .registerTypeHierarchyAdapter(ITextComponent.class, new ITextComponent.Serializer())
             // Create
             .create();
 
