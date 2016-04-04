@@ -2,6 +2,7 @@ package acs.tabbychat.core;
 
 import java.awt.Point;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,6 +19,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.stream.GuiTwitchUserMode;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.item.ItemStack;
@@ -36,7 +38,6 @@ import net.minecraft.util.IChatComponent;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 
 import tv.twitch.chat.ChatUserInfo;
 import acs.tabbychat.api.IChatKeyboardExtension;
@@ -179,7 +180,7 @@ public class GuiChatTC extends GuiChat {
      * Completes player names
      */
     @Override
-    public void func_146404_p_() {
+    public void autocompletePlayerNames() {
         String textBuffer;
         if (this.playerNamesFound) {
             this.inputField2.deleteFromCursor(this.inputField2.func_146197_a(-1,
@@ -313,21 +314,21 @@ public class GuiChatTC extends GuiChat {
 
         // Determine appropriate scaling for chat tab size and location
         float scaleSetting = this.gnc.getScaleSetting();
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
         float scaleOffsetX = ChatBox.current.x * (1.0f - scaleSetting);
         float scaleOffsetY = (this.gnc.sr.getScaledHeight() + ChatBox.current.y)
                 * (1.0f - scaleSetting);
-        GL11.glTranslatef(scaleOffsetX, scaleOffsetY, 1.0f);
-        GL11.glScalef(scaleSetting, scaleSetting, 1.0f);
+        GlStateManager.translate(scaleOffsetX, scaleOffsetY, 1.0f);
+        GlStateManager.scale(scaleSetting, scaleSetting, 1.0f);
 
         // Deal with hover events
-        IChatComponent icc = gnc.func_146236_a(Mouse.getX(), Mouse.getY());
+        IChatComponent icc = gnc.getChatComponent(Mouse.getX(), Mouse.getY());
         if (icc != null && icc.getChatStyle().getChatHoverEvent() != null) {
             HoverEvent hoverevent = icc.getChatStyle().getChatHoverEvent();
             if (hoverevent.getAction() == HoverEvent.Action.SHOW_ITEM) {
                 ItemStack itemstack = null;
                 try {
-                    NBTBase nbtbase = JsonToNBT.func_150315_a(hoverevent.getValue()
+                    NBTBase nbtbase = JsonToNBT.func_180713_a(hoverevent.getValue()
                             .getUnformattedText());
                     if (nbtbase != null && nbtbase instanceof NBTTagCompound)
                         itemstack = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbtbase);
@@ -342,11 +343,11 @@ public class GuiChatTC extends GuiChat {
                 this.drawCreativeTabHoveringText(hoverevent.getValue().getFormattedText(), cursorX,
                         cursorY);
             else if (hoverevent.getAction() == HoverEvent.Action.SHOW_ACHIEVEMENT) {
-                StatBase statbase = StatList.func_151177_a(hoverevent.getValue()
+                StatBase statbase = StatList.getOneShotStat(hoverevent.getValue()
                         .getUnformattedText());
 
                 if (statbase != null) {
-                    IChatComponent icc1 = statbase.func_150951_e();
+                    IChatComponent icc1 = statbase.getStatName();
                     ChatComponentTranslation cct = new ChatComponentTranslation(
                             "stats.tooltip.type."
                                     + (statbase.isAchievement() ? "achievement" : "statistics"),
@@ -359,12 +360,12 @@ public class GuiChatTC extends GuiChat {
 
                     if (s != null)
                         arraylist.addAll(this.fontRendererObj.listFormattedStringToWidth(s, 150));
-                    this.func_146283_a(arraylist, cursorX, cursorY);
+                    this.drawHoveringText(arraylist, cursorX, cursorY);
                 } else
                     this.drawCreativeTabHoveringText(EnumChatFormatting.RED
                             + "Invalid statistic/achievement!", cursorX, cursorY);
             }
-            GL11.glDisable(GL11.GL_LIGHTING);
+            GlStateManager.disableLighting();
         }
 
         // Draw chat tabs
@@ -384,7 +385,7 @@ public class GuiChatTC extends GuiChat {
         if (this.contextMenu != null)
             this.contextMenu.drawMenu(Mouse.getX(), Mouse.getY());
 
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
 
         // Draw the screen for extensions
         for (IChatRenderExtension extension : extensions.getListOf(IChatRenderExtension.class))
@@ -400,7 +401,7 @@ public class GuiChatTC extends GuiChat {
     }
 
     @Override
-    public void func_146406_a(String[] par1ArrayOfStr) {
+    public void onAutocompleteResponse(String[] par1ArrayOfStr) {
         if (this.waitingOnPlayerNames) {
             this.foundPlayerNames.clear();
             String[] _copy = par1ArrayOfStr;
@@ -416,7 +417,7 @@ public class GuiChatTC extends GuiChat {
 
             if (this.foundPlayerNames.size() > 0) {
                 this.playerNamesFound = true;
-                this.func_146404_p_();
+                this.autocompletePlayerNames();
             }
         }
     }
@@ -485,7 +486,7 @@ public class GuiChatTC extends GuiChat {
     }
 
     @Override
-    public void handleMouseInput() {
+    public void handleMouseInput() throws IOException {
         // Allow chatbox dragging
         if (ChatBox.resizing) {
             if (!Mouse.isButtonDown(0))
@@ -560,7 +561,7 @@ public class GuiChatTC extends GuiChat {
         String text = this.defaultInputFieldText;
         if (this.inputField2 != null)
             text = inputField2.getText();
-        this.inputField2 = new GuiTextField(this.fontRendererObj, 4, this.height - 12,
+        this.inputField2 = new GuiTextField(0, this.fontRendererObj, 4, this.height - 12,
                 textFieldWidth, 12);
         this.inputField2.setMaxStringLength(500);
         this.inputField2.setCanLoseFocus(false);
@@ -574,7 +575,7 @@ public class GuiChatTC extends GuiChat {
 
         GuiTextField placeholder;
         for (int i = 1; i < 3; i++) {
-            placeholder = new GuiTextField(this.fontRendererObj, 4, this.height - 12 * (i + 1),
+            placeholder = new GuiTextField(i, this.fontRendererObj, 4, this.height - 12 * (i + 1),
                     textFieldWidth, 12);
             placeholder.setMaxStringLength(500);
             placeholder.setCanLoseFocus(false);
@@ -648,7 +649,7 @@ public class GuiChatTC extends GuiChat {
                     tc.activateNext();
                 break;
             }
-            this.func_146404_p_();
+            this.autocompletePlayerNames();
             break;
         // ESCAPE: close the chat interface
         case Keyboard.KEY_ESCAPE:
@@ -802,7 +803,7 @@ public class GuiChatTC extends GuiChat {
         boolean clicked = false;
         if (_button == 0 && this.mc.gameSettings.chatLinks
                 && (this.contextMenu == null || !contextMenu.isCursorOver(scaled.x, scaled.y))) {
-            IChatComponent ccd = this.gnc.func_146236_a(Mouse.getX(), Mouse.getY());
+            IChatComponent ccd = this.gnc.getChatComponent(Mouse.getX(), Mouse.getY());
             if (ccd != null) {
                 ClickEvent clickEvent = ccd.getChatStyle().getChatClickEvent();
                 if (clickEvent != null) {
@@ -831,13 +832,13 @@ public class GuiChatTC extends GuiChat {
                         } else if (clickEvent.getAction() == ClickEvent.Action.SUGGEST_COMMAND) {
                             this.inputField2.setText(clickEvent.getValue());
                         } else if (clickEvent.getAction() == ClickEvent.Action.RUN_COMMAND) {
-                            this.func_146403_a(clickEvent.getValue());
+                            this.sendChatMessage(clickEvent.getValue());
                         } else if (clickEvent.getAction() == ClickEvent.Action.TWITCH_USER_INFO) {
-                            ChatUserInfo var8 = this.mc.func_152346_Z().func_152926_a(
+                            ChatUserInfo var8 = this.mc.getTwitchStream().func_152926_a(
                                     clickEvent.getValue());
                             if (var8 != null) {
                                 this.mc.displayGuiScreen(new GuiTwitchUserMode(this.mc
-                                        .func_152346_Z(), var8));
+                                        .getTwitchStream(), var8));
                             } else {
                                 log.error("Tried to handle twitch user but couldn\'t find them!");
                             }
@@ -913,7 +914,7 @@ public class GuiChatTC extends GuiChat {
     }
 
     @Override
-    public void mouseMovedOrUp(int _x, int _y, int _button) {
+    public void mouseReleased(int _x, int _y, int _button) {
         if (this.selectedButton2 != null && _button == 0) {
             this.selectedButton2.mouseReleased(_x, _y);
             this.selectedButton2 = null;

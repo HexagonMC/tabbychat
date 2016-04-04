@@ -1,11 +1,11 @@
 package acs.tabbychat.core;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
+
+import org.lwjgl.input.Keyboard;
 
 public class GuiSleepTC extends GuiChatTC {
 
@@ -46,7 +46,7 @@ public class GuiSleepTC extends GuiChatTC {
      */
     private void playerWakeUp() {
         NetHandlerPlayClient var1 = mc.thePlayer.sendQueue;
-        var1.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, 3));
+        var1.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SLEEPING));
     }
 
     @Override

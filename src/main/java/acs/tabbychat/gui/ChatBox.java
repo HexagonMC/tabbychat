@@ -1,8 +1,9 @@
 package acs.tabbychat.gui;
 
-import acs.tabbychat.core.ChatChannel;
-import acs.tabbychat.core.GuiNewChatTC;
-import acs.tabbychat.core.TabbyChat;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.util.LinkedHashMap;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
@@ -10,9 +11,9 @@ import net.minecraft.util.MathHelper;
 
 import org.lwjgl.input.Mouse;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.util.LinkedHashMap;
+import acs.tabbychat.core.ChatChannel;
+import acs.tabbychat.core.GuiNewChatTC;
+import acs.tabbychat.core.TabbyChat;
 
 public class ChatBox {
     public static Rectangle current = new Rectangle(0, -36, 320, 180);
@@ -525,7 +526,7 @@ public class ChatBox {
         current.height -= moveY;
 
         for (ChatChannel chan : chanObjs.values()) {
-            tabWidth = TabbyChat.mc.fontRenderer.getStringWidth(chan.getAlias() + "<>") + 8;
+            tabWidth = TabbyChat.mc.fontRendererObj.getStringWidth(chan.getAlias() + "<>") + 8;
             if (tabDx + tabWidth > current.width - 6 && tabWidth < current.width - 6) {
                 rows++;
                 if (tabHeight * (rows + 1) > tabTrayHeight) {

@@ -1,5 +1,15 @@
 package acs.tabbychat.gui;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.TreeMap;
+
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.resources.I18n;
 import acs.tabbychat.core.TabbyChat;
 import acs.tabbychat.settings.ColorCodeEnum;
 import acs.tabbychat.settings.FormatCodeEnum;
@@ -10,15 +20,6 @@ import acs.tabbychat.settings.TCSettingBool;
 import acs.tabbychat.settings.TCSettingEnum;
 import acs.tabbychat.settings.TCSettingTextBox;
 import acs.tabbychat.util.TabbyChatUtils;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.resources.I18n;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.TreeMap;
 
 public class TCSettingsFilters extends TCSettingsGUI {
     protected int curFilterId = 0;
@@ -230,7 +231,7 @@ public class TCSettingsFilters extends TCSettingsGUI {
         this.filterName.setButtonDims(100, 11);
         this.filterName.setLabelLoc(col1x);
         this.filterName.setButtonLoc(
-                col1x + 33 + mc.fontRenderer.getStringWidth(this.filterName.description),
+                col1x + 33 + mc.fontRendererObj.getStringWidth(this.filterName.description),
                 this.rowY(1));
 
         PrefsButton prevButton = new PrefsButton(PREV_ID, this.filterName.x() - 23, this.rowY(1),
@@ -249,7 +250,7 @@ public class TCSettingsFilters extends TCSettingsGUI {
         this.sendToAllTabs.buttonColor = buttonColor;
 
         this.sendToTabName.setLabelLoc(effRight
-                - mc.fontRenderer.getStringWidth(this.sendToTabName.description) - 55);
+                - mc.fontRendererObj.getStringWidth(this.sendToTabName.description) - 55);
         this.sendToTabName.setButtonLoc(effRight - 50, this.rowY(3));
         this.sendToTabName.setButtonDims(50, 11);
 
@@ -263,14 +264,14 @@ public class TCSettingsFilters extends TCSettingsGUI {
 
         this.highlightColor.setButtonDims(70, 11);
         this.highlightColor.setButtonLoc(
-                col1x + 15 + mc.fontRenderer.getStringWidth(this.highlightColor.description),
+                col1x + 15 + mc.fontRendererObj.getStringWidth(this.highlightColor.description),
                 this.rowY(6));
         this.highlightColor.setLabelLoc(col1x + 10);
 
         this.highlightFormat.setButtonDims(60, 11);
         this.highlightFormat.setButtonLoc(effRight - 60, this.rowY(6));
         this.highlightFormat.setLabelLoc(this.highlightFormat.x() - 5
-                - mc.fontRenderer.getStringWidth(this.highlightFormat.description));
+                - mc.fontRendererObj.getStringWidth(this.highlightFormat.description));
 
         this.audioNotificationBool.setButtonLoc(col1x, this.rowY(7));
         this.audioNotificationBool.setLabelLoc(col1x + 19);
@@ -279,22 +280,22 @@ public class TCSettingsFilters extends TCSettingsGUI {
         this.audioNotificationSound.setButtonDims(60, 11);
         this.audioNotificationSound.setButtonLoc(effRight - 60, this.rowY(7));
         this.audioNotificationSound.setLabelLoc(this.audioNotificationSound.x() - 5
-                - mc.fontRenderer.getStringWidth(this.audioNotificationSound.description));
+                - mc.fontRendererObj.getStringWidth(this.audioNotificationSound.description));
 
         this.inverseMatch.setButtonLoc(col1x, this.rowY(8));
         this.inverseMatch.setLabelLoc(col1x + 19);
         this.inverseMatch.buttonColor = buttonColor;
 
         this.caseSensitive.setLabelLoc(effRight
-                - mc.fontRenderer.getStringWidth(this.caseSensitive.description));
+                - mc.fontRendererObj.getStringWidth(this.caseSensitive.description));
         this.caseSensitive.setButtonLoc(
-                effRight - mc.fontRenderer.getStringWidth(this.caseSensitive.description) - 19,
+                effRight - mc.fontRendererObj.getStringWidth(this.caseSensitive.description) - 19,
                 this.rowY(8));
         this.caseSensitive.buttonColor = buttonColor;
 
         this.expressionString.setLabelLoc(col1x);
         this.expressionString.setButtonLoc(
-                col1x + 5 + mc.fontRenderer.getStringWidth(this.expressionString.description),
+                col1x + 5 + mc.fontRendererObj.getStringWidth(this.expressionString.description),
                 this.rowY(9));
         this.expressionString.setButtonDims(effRight - this.expressionString.x(), 11);
         this.resetTempVars();
@@ -350,7 +351,7 @@ public class TCSettingsFilters extends TCSettingsGUI {
     }
 
     @Override
-    public void mouseClicked(int par1, int par2, int par3) {
+    public void mouseClicked(int par1, int par2, int par3) throws IOException {
         if (this.audioNotificationSound.hovered(par1, par2)) {
             this.audioNotificationSound.mouseClicked(par1, par2, par3);
             mc.thePlayer.playSound(

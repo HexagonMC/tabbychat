@@ -167,7 +167,7 @@ public class TabbyChat {
             TabbyChat.instance.channelMap.put("TabbyChat", new ChatChannel("TabbyChat"));
         }
         boolean firstLine = true;
-        List<String> split = mc.fontRenderer.listFormattedStringToWidth(msg,
+        List<String> split = mc.fontRendererObj.listFormattedStringToWidth(msg,
                 ChatBox.getMinChatWidth());
         for (String splitMsg : split) {
             if (firstLine)
@@ -194,7 +194,7 @@ public class TabbyChat {
         generalSettings.loadSettingsFile();
         spellingSettings.loadSettingsFile();
         advancedSettings.loadSettingsFile();
-        defaultUnicode = mc.fontRenderer.getUnicodeFlag();
+        defaultUnicode = mc.fontRendererObj.getUnicodeFlag();
     }
 
     public void activateIndex(int ind) {
@@ -499,8 +499,8 @@ public class TabbyChat {
         toMePM.append("|^([\\p{L}\\p{N}_]{3,16}) whispers to you:");
         fromMePM.append("|^You whisper to ([\\p{L}\\p{N}_]{3,16}):");
 
-        if (mc.thePlayer != null && mc.thePlayer.getCommandSenderName() != null) {
-            String me = mc.thePlayer.getCommandSenderName();
+        if (mc.thePlayer != null && mc.thePlayer.getName() != null) {
+            String me = mc.thePlayer.getName();
 
             // Matches '[Player->Player1]' and '[Player1->Player]'
             toMePM.append("|^\\[([\\p{L}\\p{N}_]{3,16})[ ]?\\-\\>[ ]?").append(me).append("\\]");
@@ -885,8 +885,8 @@ public class TabbyChat {
 
     private void updateChanDataPath(boolean make) {
         String pName = "";
-        if (mc.thePlayer != null && mc.thePlayer.getCommandSenderName() != null)
-            pName = mc.thePlayer.getCommandSenderName();
+        if (mc.thePlayer != null && mc.thePlayer.getName() != null)
+            pName = mc.thePlayer.getName();
         File parentDir = TabbyChatUtils.getServerDir();
         if (make && !parentDir.exists())
             parentDir.mkdirs();

@@ -1,17 +1,17 @@
 package acs.tabbychat.gui;
 
-import acs.tabbychat.core.TabbyChat;
-import acs.tabbychat.settings.TCSettingBool;
-import acs.tabbychat.settings.TCSettingList;
-import acs.tabbychat.settings.TCSettingList.Entry;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.resources.I18n;
-
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
+
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.resources.I18n;
+import acs.tabbychat.core.TabbyChat;
+import acs.tabbychat.settings.TCSettingBool;
+import acs.tabbychat.settings.TCSettingList;
+import acs.tabbychat.settings.TCSettingList.Entry;
 
 public class TCSettingsSpelling extends TCSettingsGUI {
 
@@ -103,7 +103,7 @@ public class TCSettingsSpelling extends TCSettingsGUI {
         this.spellingList.width(100);
         this.spellingList.height(96);
 
-        this.wordInput = new GuiTextField(mc.fontRenderer, col1x, rowY(6), 75, 12);
+        this.wordInput = new GuiTextField(0, mc.fontRendererObj, col1x, rowY(6), 75, 12);
         this.wordInput.setCanLoseFocus(true);
 
         this.open.displayString = I18n.format("settings.spelling.opendictionary");
@@ -157,14 +157,14 @@ public class TCSettingsSpelling extends TCSettingsGUI {
     }
 
     @Override
-    public void mouseClicked(int x, int y, int button) {
+    public void mouseClicked(int x, int y, int button) throws IOException {
         super.mouseClicked(x, y, button);
         this.wordInput.mouseClicked(x, y, button);
         this.spellingList.mouseClicked(x, y, button);
     }
 
     @Override
-    public void keyTyped(char c, int i) {
+    public void keyTyped(char c, int i) throws IOException {
         super.keyTyped(c, i);
         this.wordInput.textboxKeyTyped(c, i);
     }

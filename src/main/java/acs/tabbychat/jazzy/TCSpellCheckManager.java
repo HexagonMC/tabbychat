@@ -1,17 +1,5 @@
 package acs.tabbychat.jazzy;
 
-import acs.tabbychat.core.TabbyChat;
-import acs.tabbychat.gui.ITCSettingsGUI;
-
-import com.swabunga.spell.event.SpellCheckEvent;
-import com.swabunga.spell.event.SpellChecker;
-import com.swabunga.spell.event.StringWordTokenizer;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -23,6 +11,17 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
+import acs.tabbychat.core.TabbyChat;
+import acs.tabbychat.gui.ITCSettingsGUI;
+
+import com.swabunga.spell.event.SpellCheckEvent;
+import com.swabunga.spell.event.SpellChecker;
+import com.swabunga.spell.event.StringWordTokenizer;
 
 public class TCSpellCheckManager {
     private static TCSpellCheckManager instance = null;
@@ -91,9 +90,9 @@ public class TCSpellCheckManager {
 
                 if (wordIndex + errLength > input.length()) {
                     // Misspelled word spans line break
-                    x += Minecraft.getMinecraft().fontRenderer.getStringWidth(input.substring(0,
+                    x += Minecraft.getMinecraft().fontRendererObj.getStringWidth(input.substring(0,
                             wordIndex));
-                    width = Minecraft.getMinecraft().fontRenderer.getStringWidth(input.substring(
+                    width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(input.substring(
                             wordIndex, input.length()));
                     this.drawUnderline(screen, x, y, width);
 
@@ -106,13 +105,13 @@ public class TCSpellCheckManager {
                             return;
                         y += 12;
                         x = 4;
-                        width = Minecraft.getMinecraft().fontRenderer.getStringWidth(input
+                        width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(input
                                 .substring(0, remainder));
                     }
                 } else {
-                    x += Minecraft.getMinecraft().fontRenderer.getStringWidth(input.substring(0,
+                    x += Minecraft.getMinecraft().fontRendererObj.getStringWidth(input.substring(0,
                             wordIndex));
-                    width = Minecraft.getMinecraft().fontRenderer.getStringWidth(error.getValue());
+                    width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(error.getValue());
                 }
 
                 this.drawUnderline(screen, x, y, width);

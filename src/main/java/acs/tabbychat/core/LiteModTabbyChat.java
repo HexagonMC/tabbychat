@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.play.server.S01PacketJoinGame;
 
@@ -12,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import acs.tabbychat.util.TabbyChatUtils;
 
+import com.mojang.realmsclient.dto.RealmsServer;
 import com.mumfrey.liteloader.JoinGameListener;
 import com.mumfrey.liteloader.Tickable;
 import com.mumfrey.liteloader.core.LiteLoader;
@@ -30,7 +32,7 @@ public class LiteModTabbyChat implements Tickable, JoinGameListener {
     }
 
     @Override
-    public void onJoinGame(INetHandler netHandler, S01PacketJoinGame joinGamePacket) {
+    public void onJoinGame(INetHandler netHandler, S01PacketJoinGame joinGamePacket, ServerData serverData, RealmsServer realmsServer) {
         GuiNewChatTC.getInstance();
     }
 
@@ -61,4 +63,5 @@ public class LiteModTabbyChat implements Tickable, JoinGameListener {
 
     @Override
     public void upgradeSettings(String version, File configPath, File oldConfigPath) {}
+    
 }

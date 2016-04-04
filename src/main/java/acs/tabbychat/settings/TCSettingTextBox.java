@@ -14,7 +14,7 @@ public class TCSettingTextBox extends TCSetting implements ITCSetting {
         super(theSetting, theProperty, theCategory, theID);
         this.width(50);
         this.height(11);
-        this.textBox = new GuiTextField(mc.fontRenderer, 0, 0, this.width(), this.height());
+        this.textBox = new GuiTextField(0, mc.fontRendererObj, 0, 0, this.width(), this.height());
         this.textBox.setText((String) this.value);
     }
 
@@ -35,8 +35,8 @@ public class TCSettingTextBox extends TCSetting implements ITCSetting {
         int labelColor = (this.enabled) ? 0xffffff : 0x666666;
 
         this.textBox.drawTextBox();
-        this.drawCenteredString(mc.fontRenderer, this.description,
-                this.labelX + mc.fontRenderer.getStringWidth(this.description) / 2, this.y()
+        this.drawCenteredString(mc.fontRendererObj, this.description,
+                this.labelX + mc.fontRendererObj.getStringWidth(this.description) / 2, this.y()
                         + (this.height() - 6) / 2, labelColor);
     }
 
@@ -72,7 +72,7 @@ public class TCSettingTextBox extends TCSetting implements ITCSetting {
 
     private void reassignField() {
         String tmp = this.textBox.getText();
-        this.textBox = new GuiTextField(mc.fontRenderer, this.x(), this.y() + 1, this.width(),
+        this.textBox = new GuiTextField(0, mc.fontRendererObj, this.x(), this.y() + 1, this.width(),
                 this.height() + 1);
         this.textBox.setMaxStringLength(this.charLimit);
         this.textBox.setText(tmp);

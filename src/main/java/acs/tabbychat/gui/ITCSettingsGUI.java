@@ -1,10 +1,11 @@
 package acs.tabbychat.gui;
 
-import acs.tabbychat.util.TabbyChatUtils;
-import net.minecraft.client.gui.GuiButton;
-
 import java.io.File;
+import java.io.IOException;
 import java.util.Properties;
+
+import net.minecraft.client.gui.GuiButton;
+import acs.tabbychat.util.TabbyChatUtils;
 
 public interface ITCSettingsGUI {
     int SAVEBUTTON = 8901;
@@ -35,7 +36,7 @@ public interface ITCSettingsGUI {
     /**
 	 * 
 	 */
-    public void handleMouseInput();
+    public void handleMouseInput() throws IOException;
 
     /**
 	 * 
@@ -51,7 +52,7 @@ public interface ITCSettingsGUI {
      * @param par1
      * @param par2
      */
-    public void keyTyped(char par1, int par2);
+    public void keyTyped(char par1, int par2) throws IOException;
 
     /**
      * Loads config file
@@ -65,7 +66,7 @@ public interface ITCSettingsGUI {
      * @param par2
      * @param par3
      */
-    public void mouseClicked(int par1, int par2, int par3);
+    public void mouseClicked(int par1, int par2, int par3) throws IOException;
 
     /**
 	 * 

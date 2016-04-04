@@ -1,9 +1,15 @@
 package acs.tabbychat.gui;
 
-import acs.tabbychat.core.TabbyChat;
-import acs.tabbychat.settings.ITCSetting;
-import acs.tabbychat.settings.TCSettingSlider;
-import acs.tabbychat.settings.TCSettingTextBox;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -11,14 +17,10 @@ import net.minecraft.client.resources.I18n;
 
 import org.lwjgl.input.Keyboard;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import acs.tabbychat.core.TabbyChat;
+import acs.tabbychat.settings.ITCSetting;
+import acs.tabbychat.settings.TCSettingSlider;
+import acs.tabbychat.settings.TCSettingTextBox;
 
 abstract class TCSettingsGUI extends GuiScreen implements ITCSettingsGUI {
     protected static TabbyChat tc;
@@ -90,7 +92,7 @@ abstract class TCSettingsGUI extends GuiScreen implements ITCSettingsGUI {
         for (int i = 0; i < ScreenList.size(); i++) {
             if (ScreenList.get(i) == this) {
                 int curWidth;
-                int tabDist = Math.max(mc.fontRenderer.getStringWidth(ScreenList.get(i).name)
+                int tabDist = Math.max(mc.fontRendererObj.getStringWidth(ScreenList.get(i).name)
                         + MARGIN - 40, 25);
                 if (0 <= this.lastOpened && this.lastOpened <= 5) {
                     curWidth = 45 + (this.lastOpened * tabDist) / 5;
@@ -100,8 +102,8 @@ abstract class TCSettingsGUI extends GuiScreen implements ITCSettingsGUI {
                 }
                 drawRect(absLeft - curWidth + 45, effTop + 30 * i, absLeft + 45, effTop + 30 * i
                         + 20, ScreenList.get(i).bgcolor);
-                this.drawString(mc.fontRenderer,
-                        mc.fontRenderer.trimStringToWidth(ScreenList.get(i).name, curWidth - 5),
+                this.drawString(mc.fontRendererObj,
+                        mc.fontRendererObj.trimStringToWidth(ScreenList.get(i).name, curWidth - 5),
                         effLeft - curWidth + 45, effTop + 6 + 30 * i, 0xffffff);
             } else {
                 drawRect(absLeft, effTop + 30 * i, absLeft + 45, effTop + 30 * i + 20,
@@ -114,7 +116,7 @@ abstract class TCSettingsGUI extends GuiScreen implements ITCSettingsGUI {
     }
 
     @Override
-    public void handleMouseInput() {
+    public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         for (int i = 0; i < this.buttonList.size(); i++) {
             if (this.buttonList.get(i) instanceof ITCSetting) {
@@ -157,7 +159,7 @@ abstract class TCSettingsGUI extends GuiScreen implements ITCSettingsGUI {
             ScreenList.get(i).name = I18n.format(ScreenList.get(i).propertyPrefix + ".name");
             if (ScreenList.get(i) != this) {
                 this.buttonList.add(new PrefsButton(ScreenList.get(i).id, effLeft, effTop + 30 * i,
-                        45, 20, mc.fontRenderer.trimStringToWidth(ScreenList.get(i).name, 35)
+                        45, 20, mc.fontRendererObj.trimStringToWidth(ScreenList.get(i).name, 35)
                                 + "..."));
                 ((PrefsButton) this.buttonList.get(this.buttonList.size() - 1)).bgcolor = 0x00000000;
             }
@@ -172,7 +174,7 @@ abstract class TCSettingsGUI extends GuiScreen implements ITCSettingsGUI {
     }
 
     @Override
-    public void keyTyped(char par1, int par2) {
+    public void keyTyped(char par1, int par2) throws IOException {
         for (int i = 0; i < this.buttonList.size(); i++) {
             if (ITCSetting.class.isInstance(this.buttonList.get(i))) {
                 ITCSetting tmp = (ITCSetting) this.buttonList.get(i);
@@ -220,7 +222,7 @@ abstract class TCSettingsGUI extends GuiScreen implements ITCSettingsGUI {
     }
 
     @Override
-    public void mouseClicked(int par1, int par2, int par3) {
+    public void mouseClicked(int par1, int par2, int par3) throws IOException {
         for (int i = 0; i < this.buttonList.size(); i++) {
             if (this.buttonList.get(i) instanceof ITCSetting) {
                 ITCSetting tmp = (ITCSetting) this.buttonList.get(i);

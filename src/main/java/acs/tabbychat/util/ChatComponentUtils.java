@@ -21,7 +21,7 @@ import com.google.common.collect.Lists;
  */
 public class ChatComponentUtils {
 
-    private static FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+    private static FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
 
     /**
      * Replaces all instances of the given word.
@@ -178,7 +178,7 @@ public class ChatComponentUtils {
                     newChat.getSiblings().size() - 1);
             EnumChatFormatting format = null;
             for (EnumChatFormatting formats : EnumChatFormatting.values()) {
-                if (String.valueOf(formats.getFormattingCode()).equals(part.substring(0, 1)))
+                if (String.valueOf(formats.toString()).equals(part.substring(0, 1)))
                     format = formats;
             }
 

@@ -27,11 +27,6 @@ public class TCChatLineFake extends ChatLine {
     }
 
     @Override
-    @Deprecated
-    public IChatComponent func_151461_a() {
-        return getChatComponent();
-    }
-
     public IChatComponent getChatComponent() {
         return this.chatComponent;
     }

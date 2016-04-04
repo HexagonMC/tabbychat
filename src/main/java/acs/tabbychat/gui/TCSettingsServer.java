@@ -119,7 +119,7 @@ public class TCSettingsServer extends TCSettingsGUI {
 
         this.delimiterChars.setLabelLoc(col1x);
         this.delimiterChars.setButtonLoc(
-                col1x + 20 + mc.fontRenderer.getStringWidth(this.delimiterChars.description),
+                col1x + 20 + mc.fontRendererObj.getStringWidth(this.delimiterChars.description),
                 this.rowY(3));
         this.delimiterChars.setButtonDims(80, 11);
 
@@ -146,10 +146,10 @@ public class TCSettingsServer extends TCSettingsGUI {
         this.ignoredChannels.setButtonDims(149, 11);
 
         this.regexIgnoreBool.setButtonLoc(
-                col1x + 5 + mc.fontRenderer.getStringWidth(this.ignoredChannels.description),
+                col1x + 5 + mc.fontRendererObj.getStringWidth(this.ignoredChannels.description),
                 this.rowY(8));
         this.regexIgnoreBool.setLabelLoc(col1x + 5
-                + mc.fontRenderer.getStringWidth(this.ignoredChannels.description) + 19);
+                + mc.fontRendererObj.getStringWidth(this.ignoredChannels.description) + 19);
         this.regexIgnoreBool.buttonColor = buttonColor;
 
         this.pmTabRegexToMe.setLabelLoc(col1x);
