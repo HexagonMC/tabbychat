@@ -25,9 +25,6 @@ deploy:
     secure: g71FOdFMEw9H2UlKkdgWgndMC6nMNtaO5NVr3XJ6VrBv85sU8GQCGTRH+P7eaTZ0aWnfXdv7EfU/1MExCZztP7tAzrrqDRYIgkY1/B6oZ8c4C9MPLfwnOlPJILS8DMC8wwKaTqPQDlFIx2XhYIlqWCYLff0cggbQA0NU9t9Y1HfCrV0K51e6H+qk2Fe9hbTKQed8FQq8SUGHTEGSqWt+Sna5gN1WzokattYJaNhHzRGBP7AnSomv1JAAC3CgZsZAl05YNiF4SEaDBBNUOoWsF7J6Eytr32sI/UR+LkZhZ3lKweZd5xCnEke/vU1YU9/xuoFEFrGUjOKJg0W/XRSgoNMEJYLC5EsG4y7cb1r1SwQ8t/wpF9I2COw9GGT563yD+e4IUuWD8YuK5tvtEFlrHE4urk1MFQuFzB1qC2pjy894YT/t6x12SD81DQ+E8Wdf3xqiS24RO4IzjLdrIeqKZp+stmfrNprtqkCbQozc/pVCxh/uwUbOg/2gAn+x2UeYLnbutI8hB1ziCpH/8TCbTctcjfGS5FCROUBH/hhlkSicbhjC1nIkbGbqg+8hDMSKaTZTtaS8r74arMBK96PONi2r8dTvLBz8KqU5l9hLWGaLQhgmfI0k1sJb291BKJrj7Dvvr9js276hdLSuSKmlMOpTV51RKwt4on8LndjLm1c=
   file: build/libs/TabbyChat*
   file_glob: true
-  on:
-    branch: '1.8'
-    branch: '1.9'
 cache:
   directories:
   - "$HOME/.m2"
