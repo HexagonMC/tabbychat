@@ -1,9 +1,18 @@
-[![Build Status](https://drone.io/github.com/killjoy1221/tabbychat/status.png)](https://drone.io/github.com/killjoy1221/tabbychat/latest)
 tabbychat
-=========
-TabbyChat chat mod for Minecraft
-[Latest builds](https://drone.io/github.com/killjoy1221/tabbychat/files)
+==========
+`1.8`
 
-Forum thread: http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2181597-new-tabbychat-v1-11-1-smp-chat-overhaul-new
+[![Build Status](https://travis-ci.org/HexagonMC/tabbychat.svg?branch=1.8)](https://travis-ci.org/HexagonMC/BungeeCord)
 
-This code is released under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (CC-NC-SA) license, the contents of which are available at http://creativecommons.org/licenses/by-nc-sa/3.0/legalcode
+`1.9`
+
+[![Build Status](https://travis-ci.org/HexagonMC/tabbychat.svg?branch=1.9)](https://travis-ci.org/HexagonMC/BungeeCord)
+
+This is a fork of killjoy1221's tabbychat  
+http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2181597-new-tabbychat-v1-11-1-smp-chat-overhaul-new
+
+This versions updates tabbychat to Forge 1.8 and 1.9.
+
+This version is maintained by https://hexagonmc.eu
+
+###Releases can be downloaded here: [Releases](https://github.com/HexagonMC/tabbychat/releases)
