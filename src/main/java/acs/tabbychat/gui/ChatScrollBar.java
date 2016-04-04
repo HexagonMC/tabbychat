@@ -3,7 +3,7 @@ package acs.tabbychat.gui;
 import acs.tabbychat.core.GuiNewChatTC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 
 import org.lwjgl.input.Mouse;
 

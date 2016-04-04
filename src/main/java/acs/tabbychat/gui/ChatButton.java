@@ -1,16 +1,16 @@
 package acs.tabbychat.gui;
 
-import acs.tabbychat.core.ChatChannel;
-import acs.tabbychat.core.GuiNewChatTC;
-import acs.tabbychat.core.TabbyChat;
+import java.awt.Rectangle;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.GlStateManager;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-
-import java.awt.Rectangle;
+import acs.tabbychat.core.ChatChannel;
+import acs.tabbychat.core.GuiNewChatTC;
+import acs.tabbychat.core.TabbyChat;
 
 public class ChatButton extends GuiButton {
 
@@ -124,7 +124,7 @@ public class ChatButton extends GuiButton {
     @Override
     public void drawButton(Minecraft mc, int cursorX, int cursorY) {
         if (this.visible) {
-            FontRenderer fr = mc.fontRenderer;
+            FontRenderer fr = mc.fontRendererObj;
             float _mult = mc.gameSettings.chatOpacity * 0.9F + 0.1F;
             int _opacity = (int) (255 * _mult);
             int textOpacity = (TabbyChat.advancedSettings.textIgnoreOpacity.getValue() ? 255
@@ -152,7 +152,7 @@ public class ChatButton extends GuiButton {
             }
             drawRect(this.x(), this.y(), this.x() + this.width(), this.y() + this.height(), var8
                     + (_opacity / 2 << 24));
-            GL11.glEnable(GL11.GL_BLEND);
+            GlStateManager.enableBlend();
             if (hovered && Keyboard.isKeyDown(42)) {
                 String special = (this.channel.getTitle().equalsIgnoreCase("*") ? "\u2398"
                         : "\u26A0");

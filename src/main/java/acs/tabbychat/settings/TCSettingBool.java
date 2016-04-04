@@ -56,8 +56,8 @@ public class TCSettingBool extends TCSetting implements ITCSetting {
             drawRect(centerX + 3, centerY - 2, centerX + 4, centerY - 4, this.buttonColor);
         }
 
-        this.drawCenteredString(mc.fontRenderer, this.description,
-                this.labelX + mc.fontRenderer.getStringWidth(this.description) / 2, this.y()
+        this.drawCenteredString(mc.fontRendererObj, this.description,
+                this.labelX + mc.fontRendererObj.getStringWidth(this.description) / 2, this.y()
                         + (this.height() - 6) / 2, labelColor);
     }
 

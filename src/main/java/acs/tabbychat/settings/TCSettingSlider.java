@@ -100,11 +100,11 @@ public class TCSettingSlider extends TCSetting implements ITCSetting {
         String valLabel = Integer.toString(Math.round(this.sliderValue
                 * (this.maxValue - this.minValue) + this.minValue))
                 + this.units;
-        this.drawCenteredString(mc.fontRenderer, valLabel, valCenter + this.x(), this.y() + 2,
+        this.drawCenteredString(mc.fontRendererObj, valLabel, valCenter + this.x(), this.y() + 2,
                 buttonColor);
 
-        this.drawCenteredString(mc.fontRenderer, this.description,
-                this.labelX + mc.fontRenderer.getStringWidth(this.description) / 2, this.y()
+        this.drawCenteredString(mc.fontRendererObj, this.description,
+                this.labelX + mc.fontRendererObj.getStringWidth(this.description) / 2, this.y()
                         + (this.height() - 6) / 2, labelColor);
     }
 

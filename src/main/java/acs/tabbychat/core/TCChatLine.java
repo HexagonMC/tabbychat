@@ -3,8 +3,8 @@ package acs.tabbychat.core;
 import java.util.Date;
 
 import net.minecraft.client.gui.ChatLine;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import acs.tabbychat.util.TCChatLineFake;
 
 import com.google.gson.annotations.Expose;
@@ -15,34 +15,34 @@ public class TCChatLine extends TCChatLineFake {
     @Expose
     public Date timeStamp;
 
-    public TCChatLine(int _counter, IChatComponent _string, int _id) {
+    public TCChatLine(int _counter, ITextComponent _string, int _id) {
         super(_counter, _string, _id);
     }
 
     public TCChatLine(ChatLine _cl) {
-        super(_cl.getUpdatedCounter(), _cl.func_151461_a(), _cl.getChatLineID());
+        super(_cl.getUpdatedCounter(), _cl.getChatComponent(), _cl.getChatLineID());
         if (_cl instanceof TCChatLine) {
             timeStamp = ((TCChatLine) _cl).timeStamp;
             statusMsg = ((TCChatLine) _cl).statusMsg;
         }
     }
 
-    public TCChatLine(int _counter, IChatComponent _string, int _id, boolean _stat) {
+    public TCChatLine(int _counter, ITextComponent _string, int _id, boolean _stat) {
         this(_counter, _string, _id);
         this.statusMsg = _stat;
     }
 
-    protected void setChatLineString(IChatComponent newLine) {
+    protected void setChatLineString(ITextComponent newLine) {
         this.chatComponent = newLine;
     }
 
-    public IChatComponent getTimeStamp() {
+    public ITextComponent getTimeStamp() {
         String format = TabbyChat.generalSettings.timeStamp.format(timeStamp);
-        return new ChatComponentText(format + " ");
+        return new TextComponentString(format + " ");
     }
 
-    public IChatComponent getChatComponentWithTimestamp() {
-        IChatComponent result = getChatComponent();
+    public ITextComponent getChatComponentWithTimestamp() {
+        ITextComponent result = getChatComponent();
         if (TabbyChat.generalSettings.timeStampEnable.getValue() && timeStamp != null) {
             result = getTimeStamp().appendSibling(result);
         }

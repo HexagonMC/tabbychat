@@ -42,10 +42,10 @@ import java.util.zip.GZIPOutputStream;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatStyle;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
@@ -79,7 +79,7 @@ public class TabbyChat {
             .excludeFieldsWithoutExposeAnnotation()
             .enableComplexMapKeySerialization()
             // Register chat
-            .registerTypeAdapter(IChatComponent.class, new IChatComponent.Serializer())
+            .registerTypeAdapter(ITextComponent.class, new ITextComponent.Serializer())
             // Create
             .create();
 
@@ -89,7 +89,7 @@ public class TabbyChat {
     public static boolean modLoaded = false;
     public static boolean forgePresent = false;
     private static boolean updateChecked = false;
-    private static String mcversion = (new ServerData("", "")).gameVersion;
+    private static String mcversion = (new ServerData("", "", true)).gameVersion;
     public static boolean defaultUnicode;
     public static String version = TabbyChatUtils.version;
     public static Minecraft mc;
@@ -167,16 +167,16 @@ public class TabbyChat {
             TabbyChat.instance.channelMap.put("TabbyChat", new ChatChannel("TabbyChat"));
         }
         boolean firstLine = true;
-        List<String> split = mc.fontRenderer.listFormattedStringToWidth(msg,
+        List<String> split = mc.fontRendererObj.listFormattedStringToWidth(msg,
                 ChatBox.getMinChatWidth());
         for (String splitMsg : split) {
             if (firstLine)
                 TabbyChat.instance.addToChannel("TabbyChat",
-                        new TCChatLine(mc.ingameGUI.getUpdateCounter(), new ChatComponentText(
+                        new TCChatLine(mc.ingameGUI.getUpdateCounter(), new TextComponentString(
                                 splitMsg), 0, true), false);
             else
                 TabbyChat.instance.addToChannel("TabbyChat",
-                        new TCChatLine(mc.ingameGUI.getUpdateCounter(), new ChatComponentText(" "
+                        new TCChatLine(mc.ingameGUI.getUpdateCounter(), new TextComponentString(" "
                                 + splitMsg), 0, true), false);
             firstLine = false;
         }
@@ -194,7 +194,7 @@ public class TabbyChat {
         generalSettings.loadSettingsFile();
         spellingSettings.loadSettingsFile();
         advancedSettings.loadSettingsFile();
-        defaultUnicode = mc.fontRenderer.getUnicodeFlag();
+        defaultUnicode = mc.fontRendererObj.getUnicodeFlag();
     }
 
     public void activateIndex(int ind) {
@@ -438,7 +438,7 @@ public class TabbyChat {
                 _new.cmdPrefix = chan.getValue().cmdPrefix;
                 _new.importOldChat(chan.getValue());
                 this.addToChannel(chan.getKey(),
-                        new TCChatLine(-1, new ChatComponentText("-- chat history from "
+                        new TCChatLine(-1, new TextComponentString("-- chat history from "
                                 + (new SimpleDateFormat()).format(chanDataFile.lastModified())), 0,
                                 true), true);
                 oldIDs++;
@@ -499,8 +499,8 @@ public class TabbyChat {
         toMePM.append("|^([\\p{L}\\p{N}_]{3,16}) whispers to you:");
         fromMePM.append("|^You whisper to ([\\p{L}\\p{N}_]{3,16}):");
 
-        if (mc.thePlayer != null && mc.thePlayer.getCommandSenderName() != null) {
-            String me = mc.thePlayer.getCommandSenderName();
+        if (mc.thePlayer != null && mc.thePlayer.getName() != null) {
+            String me = mc.thePlayer.getName();
 
             // Matches '[Player->Player1]' and '[Player1->Player]'
             toMePM.append("|^\\[([\\p{L}\\p{N}_]{3,16})[ ]?\\-\\>[ ]?").append(me).append("\\]");
@@ -593,8 +593,8 @@ public class TabbyChat {
         String pmTab = null;
         toTabs.add("*");
 
-        IChatComponent raw = theChat.getChatComponent();
-        IChatComponent filtered = this.processChatForFilters(raw, filterTabs);
+        ITextComponent raw = theChat.getChatComponent();
+        ITextComponent filtered = this.processChatForFilters(raw, filterTabs);
         if (generalSettings.saveChatLog.getValue())
             TabbyChatUtils.logChat(raw.getUnformattedText(), null);
 
@@ -694,8 +694,8 @@ public class TabbyChat {
         }
     }
 
-    private String processChatForChannels(IChatComponent raw) {
-        Matcher findChannelClean = this.chatChannelPatternClean.matcher(EnumChatFormatting
+    private String processChatForChannels(ITextComponent raw) {
+        Matcher findChannelClean = this.chatChannelPatternClean.matcher(TextFormatting
                 .getTextWithoutFormattingCodes(raw.getUnformattedText()));
         Matcher findChannelDirty = this.chatChannelPatternDirty.matcher(raw.getFormattedText());
         boolean dirtyCheck = (!serverSettings.delimColorBool.getValue() && !serverSettings.delimFormatBool
@@ -705,12 +705,12 @@ public class TabbyChat {
         return null;
     }
 
-    private IChatComponent processChatForFilters(IChatComponent raw, List<String> destinations) {
+    private ITextComponent processChatForFilters(ITextComponent raw, List<String> destinations) {
         if (raw == null)
             return null;
 
         // Iterate through defined filters
-        IChatComponent chat = raw;
+        ITextComponent chat = raw;
         Entry<Integer, TCChatFilter> iFilter = filterSettings.filterMap.firstEntry();
         while (iFilter != null) {
             if (iFilter.getValue().applyFilterToDirtyChat(chat)) {
@@ -723,11 +723,11 @@ public class TabbyChat {
                         int start = lastMatch[i1];
                         int end = lastMatch[i1 + 1];
 
-                        IChatComponent chat1 = ChatComponentUtils.subComponent(chat, 0, start);
-                        IChatComponent chat2 = ChatComponentUtils.subComponent(chat, start, end);
-                        IChatComponent chat3 = ChatComponentUtils.subComponent(chat, end);
+                        ITextComponent chat1 = ChatComponentUtils.subComponent(chat, 0, start);
+                        ITextComponent chat2 = ChatComponentUtils.subComponent(chat, start, end);
+                        ITextComponent chat3 = ChatComponentUtils.subComponent(chat, end);
 
-                        ChatStyle style = chat2.getChatStyle();
+                        Style style = chat2.getChatStyle();
                         if (iFilter.getValue().highlightColor != ColorCodeEnum.DEFAULT)
                             style.setColor(iFilter.getValue().highlightColor.toVanilla());
 
@@ -778,7 +778,7 @@ public class TabbyChat {
     }
 
     private String processChatForPMs(String raw) {
-        raw = EnumChatFormatting.getTextWithoutFormattingCodes(raw);
+        raw = TextFormatting.getTextWithoutFormattingCodes(raw);
         if (this.chatPMtoMePattern != null) {
             Matcher findPMtoMe = this.chatPMtoMePattern.matcher(raw);
             if (findPMtoMe.find()) {
@@ -885,8 +885,8 @@ public class TabbyChat {
 
     private void updateChanDataPath(boolean make) {
         String pName = "";
-        if (mc.thePlayer != null && mc.thePlayer.getCommandSenderName() != null)
-            pName = mc.thePlayer.getCommandSenderName();
+        if (mc.thePlayer != null && mc.thePlayer.getName() != null)
+            pName = mc.thePlayer.getName();
         File parentDir = TabbyChatUtils.getServerDir();
         if (make && !parentDir.exists())
             parentDir.mkdirs();

@@ -6,10 +6,10 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.util.ChatComponentStyle;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentBase;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import acs.tabbychat.core.TCChatLine;
 
 import com.google.common.collect.Lists;
@@ -21,7 +21,7 @@ import com.google.common.collect.Lists;
  */
 public class ChatComponentUtils {
 
-    private static FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+    private static FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
 
     /**
      * Replaces all instances of the given word.
@@ -31,12 +31,11 @@ public class ChatComponentUtils {
      * @param replacement
      * @return
      */
-    @SuppressWarnings("unchecked")
-    public static IChatComponent replaceText(IChatComponent chat, String regex, String replacement) {
-        List<IChatComponent> iter = chat.getSiblings();
-        IChatComponent newChat = new ChatComponentText("");
-        for (IChatComponent next : iter) {
-            IChatComponent comp = new ChatComponentText(next.getUnformattedText().replaceAll(regex,
+    public static ITextComponent replaceText(ITextComponent chat, String regex, String replacement) {
+        List<ITextComponent> iter = chat.getSiblings();
+        ITextComponent newChat = new TextComponentString("");
+        for (ITextComponent next : iter) {
+        	ITextComponent comp = new TextComponentString(next.getUnformattedText().replaceAll(regex,
                     replacement));
             comp.setChatStyle(next.getChatStyle().createShallowCopy());
             newChat.appendSibling(comp);
@@ -45,7 +44,7 @@ public class ChatComponentUtils {
     }
 
     public static String formatString(String text, boolean force) {
-        return !force && !Minecraft.getMinecraft().gameSettings.chatColours ? EnumChatFormatting
+        return !force && !Minecraft.getMinecraft().gameSettings.chatColours ? TextFormatting
                 .getTextWithoutFormattingCodes(text) : text;
     }
 
@@ -59,8 +58,8 @@ public class ChatComponentUtils {
 
     public static List<TCChatLine> split(TCChatLine line, int width) {
         List<TCChatLine> list = Lists.newArrayList();
-        List<IChatComponent> ichat = split(line.getChatComponentWithTimestamp(), width);
-        for (IChatComponent chat : ichat) {
+        List<ITextComponent> ichat = split(line.getChatComponentWithTimestamp(), width);
+        for (ITextComponent chat : ichat) {
             list.add(0, new TCChatLine(line.getUpdatedCounter(), chat, line.getChatLineID()));
         }
         return list;
@@ -74,19 +73,18 @@ public class ChatComponentUtils {
      * @param limit
      * @return
      */
-    @SuppressWarnings("unchecked")
-    public static List<IChatComponent> split(IChatComponent chat, int limit) {
+    public static List<ITextComponent> split(ITextComponent chat, int limit) {
 
         int j = 0;
-        ChatComponentText chatcomponenttext = new ChatComponentText("");
-        List<IChatComponent> arraylist = Lists.newArrayList();
-        ArrayList<IChatComponent> arraylist1 = Lists.newArrayList(chat);
+        TextComponentString chatcomponenttext = new TextComponentString("");
+        List<ITextComponent> arraylist = Lists.newArrayList();
+        ArrayList<ITextComponent> arraylist1 = Lists.newArrayList(chat);
 
         for (int k = 0; k < arraylist1.size(); ++k) {
             if (chatcomponenttext == null) {
-                chatcomponenttext = new ChatComponentText(" ");
+                chatcomponenttext = new TextComponentString(" ");
             }
-            IChatComponent ichatcomponent1 = arraylist1.get(k);
+            ITextComponent ichatcomponent1 = arraylist1.get(k);
             String s = ichatcomponent1.getUnformattedTextForChat();
             // Fix for when bad coders create chat using a null string
             if (s == null) {
@@ -99,7 +97,7 @@ public class ChatComponentUtils {
                 int l = s.indexOf(10);
                 s1 = s.substring(l + 1);
                 s = s.substring(0, l + 1);
-                ChatComponentText chatcomponenttext1 = new ChatComponentText(s1);
+                TextComponentString chatcomponenttext1 = new TextComponentString(s1);
                 chatcomponenttext1.setChatStyle(ichatcomponent1.getChatStyle().createShallowCopy());
                 arraylist1.add(k + 1, chatcomponenttext1);
                 flag2 = true;
@@ -108,7 +106,7 @@ public class ChatComponentUtils {
             String s4 = formatString(ichatcomponent1.getChatStyle().getFormattingCode() + s, true);
             s1 = s4.endsWith("\n") ? s4.substring(0, s4.length() - 1) : s4;
             int j1 = fontRenderer.getStringWidth(s1);
-            ChatComponentText chatcomponenttext2 = new ChatComponentText(s1);
+            TextComponentString chatcomponenttext2 = new TextComponentString(s1);
             chatcomponenttext2.setChatStyle(ichatcomponent1.getChatStyle().createShallowCopy());
 
             if (j + j1 > limit) {
@@ -127,14 +125,14 @@ public class ChatComponentUtils {
                         s3 = s4;
                     }
 
-                    ChatComponentText chatcomponenttext3 = new ChatComponentText(s3);
+                    TextComponentString chatcomponenttext3 = new TextComponentString(s3);
                     chatcomponenttext3.setChatStyle(ichatcomponent1.getChatStyle()
                             .createShallowCopy());
                     arraylist1.add(k + 1, chatcomponenttext3);
                 }
 
                 j1 = fontRenderer.getStringWidth(s2);
-                chatcomponenttext2 = new ChatComponentText(s2);
+                chatcomponenttext2 = new TextComponentString(s2);
                 chatcomponenttext2.setChatStyle(ichatcomponent1.getChatStyle().createShallowCopy());
                 flag2 = true;
             }
@@ -163,9 +161,9 @@ public class ChatComponentUtils {
      * @param chat
      * @return
      */
-    public static IChatComponent formattedStringToChat(String chat) {
+    public static ITextComponent formattedStringToChat(String chat) {
 
-        IChatComponent newChat = new ChatComponentText("");
+    	ITextComponent newChat = new TextComponentString("");
         String[] parts = chat.split("\u00a7");
         boolean first = true;
         for (String part : parts) {
@@ -174,18 +172,18 @@ public class ChatComponentUtils {
                 newChat.appendText(part);
                 continue;
             }
-            IChatComponent last = (IChatComponent) newChat.getSiblings().get(
+            ITextComponent last = (ITextComponent) newChat.getSiblings().get(
                     newChat.getSiblings().size() - 1);
-            EnumChatFormatting format = null;
-            for (EnumChatFormatting formats : EnumChatFormatting.values()) {
-                if (String.valueOf(formats.getFormattingCode()).equals(part.substring(0, 1)))
+            TextFormatting format = null;
+            for (TextFormatting formats : TextFormatting.values()) {
+                if (String.valueOf(formats.toString()).equals(part.substring(0, 1)))
                     format = formats;
             }
 
             if (format != null) {
-                IChatComponent chat1 = new ChatComponentText(part.substring(1));
-                if (format.equals(EnumChatFormatting.RESET)) {
-                    chat1.getChatStyle().setColor(EnumChatFormatting.WHITE);
+            	ITextComponent chat1 = new TextComponentString(part.substring(1));
+                if (format.equals(TextFormatting.RESET)) {
+                    chat1.getChatStyle().setColor(TextFormatting.WHITE);
                     chat1.getChatStyle().setBold(false);
                     chat1.getChatStyle().setItalic(false);
                     chat1.getChatStyle().setObfuscated(false);
@@ -196,15 +194,15 @@ public class ChatComponentUtils {
                 }
                 if (format.isColor())
                     chat1.getChatStyle().setColor(format);
-                if (format.equals(EnumChatFormatting.BOLD))
+                if (format.equals(TextFormatting.BOLD))
                     chat1.getChatStyle().setBold(true);
-                if (format.equals(EnumChatFormatting.ITALIC))
+                if (format.equals(TextFormatting.ITALIC))
                     chat1.getChatStyle().setItalic(true);
-                if (format.equals(EnumChatFormatting.UNDERLINE))
+                if (format.equals(TextFormatting.UNDERLINE))
                     chat1.getChatStyle().setUnderlined(true);
-                if (format.equals(EnumChatFormatting.OBFUSCATED))
+                if (format.equals(TextFormatting.OBFUSCATED))
                     chat1.getChatStyle().setObfuscated(true);
-                if (format.equals(EnumChatFormatting.STRIKETHROUGH))
+                if (format.equals(TextFormatting.STRIKETHROUGH))
                     chat1.getChatStyle().setStrikethrough(true);
 
                 newChat.appendSibling(chat1);
@@ -217,15 +215,14 @@ public class ChatComponentUtils {
         return newChat;
     }
 
-    @SuppressWarnings("unchecked")
-    public static IChatComponent subComponent(IChatComponent chat, int index) {
-        IChatComponent result = new ChatComponentText("");
+    public static ITextComponent subComponent(ITextComponent chat, int index) {
+    	ITextComponent result = new TextComponentString("");
 
         int pos = 0;
         boolean found = false;
-        Iterator<IChatComponent> iter = chat.iterator();
+        Iterator<ITextComponent> iter = chat.iterator();
         while (iter.hasNext()) {
-            IChatComponent ichat = iter.next();
+        	ITextComponent ichat = iter.next();
             if (!ichat.getSiblings().isEmpty()) {
                 continue;
             }
@@ -235,7 +232,7 @@ public class ChatComponentUtils {
                     result.appendSibling(ichat);
                 else {
                     found = true;
-                    IChatComponent local = new ChatComponentText(text.substring(index - pos));
+                    ITextComponent local = new TextComponentString(text.substring(index - pos));
                     local.setChatStyle(ichat.getChatStyle().createDeepCopy());
 
                     result.appendSibling(local);
@@ -246,20 +243,19 @@ public class ChatComponentUtils {
         return result;
     }
 
-    @SuppressWarnings("unchecked")
-    public static IChatComponent subComponent(IChatComponent chat, int start, int end) {
-        IChatComponent result = new ChatComponentText("");
+    public static ITextComponent subComponent(ITextComponent chat, int start, int end) {
+    	ITextComponent result = new TextComponentString("");
         int pos = start;
-        Iterator<IChatComponent> iter = ChatComponentStyle.createDeepCopyIterator(subComponent(
+        Iterator<ITextComponent> iter = TextComponentBase.createDeepCopyIterator(subComponent(
                 chat, start).getSiblings());
         while (iter.hasNext()) {
-            IChatComponent ichat = iter.next();
+        	ITextComponent ichat = iter.next();
             if (!ichat.getSiblings().isEmpty()) {
                 continue;
             }
             String text = ichat.getUnformattedTextForChat();
             if (pos + text.length() >= end) {
-                IChatComponent local = new ChatComponentText(text.substring(0, end - pos));
+            	ITextComponent local = new TextComponentString(text.substring(0, end - pos));
                 local.getChatStyle().setParentStyle(chat.getChatStyle().createDeepCopy());
                 result.appendSibling(local);
                 break;

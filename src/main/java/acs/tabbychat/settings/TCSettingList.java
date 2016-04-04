@@ -1,22 +1,22 @@
 package acs.tabbychat.settings;
 
-import acs.tabbychat.gui.PrefsButton;
-import acs.tabbychat.jazzy.TCSpellCheckManager;
-
-import com.google.common.collect.Lists;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.util.MathHelper;
-
-import org.apache.commons.io.IOUtils;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.util.math.MathHelper;
+
+import org.apache.commons.io.IOUtils;
+
+import acs.tabbychat.gui.PrefsButton;
+import acs.tabbychat.jazzy.TCSpellCheckManager;
+
+import com.google.common.collect.Lists;
 
 public class TCSettingList extends Gui {
 
@@ -179,7 +179,7 @@ public class TCSettingList extends Gui {
         if (x > x() && x < x() + width() && y > y() && y < y() + height())
             for (Entry entry : getVisible()) {
                 if (y > entry.y() && y < entry.y() + entry.height()) {
-                    entry.func_146113_a(Minecraft.getMinecraft().getSoundHandler());
+                    entry.playPressSound(Minecraft.getMinecraft().getSoundHandler());
                     actionPerformed(entry);
                     return;
                 }

@@ -1,17 +1,17 @@
 package acs.tabbychat.gui;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Properties;
+
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.resources.I18n;
 import acs.tabbychat.core.TabbyChat;
 import acs.tabbychat.settings.ColorCodeEnum;
 import acs.tabbychat.settings.FormatCodeEnum;
 import acs.tabbychat.settings.TCSettingBool;
 import acs.tabbychat.settings.TCSettingEnum;
 import acs.tabbychat.settings.TimeStampEnum;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.resources.I18n;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Properties;
 
 public class TCSettingsGeneral extends TCSettingsGUI {
     public SimpleDateFormat timeStamp = new SimpleDateFormat();
@@ -125,12 +125,12 @@ public class TCSettingsGeneral extends TCSettingsGUI {
         this.timeStampStyle.setButtonDims(80, 11);
         this.timeStampStyle.setButtonLoc(effRight - 80, this.rowY(4));
         this.timeStampStyle.setLabelLoc(this.timeStampStyle.x() - 10
-                - mc.fontRenderer.getStringWidth(this.timeStampStyle.description));
+                - mc.fontRendererObj.getStringWidth(this.timeStampStyle.description));
 
         this.timeStampColor.setButtonDims(80, 11);
         this.timeStampColor.setButtonLoc(effRight - 80, this.rowY(5));
         this.timeStampColor.setLabelLoc(this.timeStampColor.x() - 10
-                - mc.fontRenderer.getStringWidth(this.timeStampColor.description));
+                - mc.fontRendererObj.getStringWidth(this.timeStampColor.description));
 
         this.groupSpam.setButtonLoc(col1x, this.rowY(6));
         this.groupSpam.setLabelLoc(col1x + 19);

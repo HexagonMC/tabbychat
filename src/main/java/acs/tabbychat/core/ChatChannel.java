@@ -11,8 +11,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
-
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.renderer.GlStateManager;
 
 import acs.tabbychat.gui.ChatBox;
 import acs.tabbychat.gui.ChatButton;
@@ -72,7 +71,7 @@ public class ChatChannel {
         this.title = _title;
         this.alias = this.title;
         this.tab.channel = this;
-        this.tab.width(TabbyChat.mc.fontRenderer.getStringWidth(this.alias + "<>") + 8);
+        this.tab.width(TabbyChat.mc.fontRendererObj.getStringWidth(this.alias + "<>") + 8);
     }
 
     /**
@@ -81,7 +80,7 @@ public class ChatChannel {
      * @param _title
      */
     public ChatChannel(String _title) {
-        this(3, 3, Minecraft.getMinecraft().fontRenderer.getStringWidth("<" + _title + ">") + 8,
+        this(3, 3, Minecraft.getMinecraft().fontRendererObj.getStringWidth("<" + _title + ">") + 8,
                 14, _title);
     }
 
@@ -220,7 +219,7 @@ public class ChatChannel {
      */
     public void setAlias(String _alias) {
         this.alias = _alias;
-        this.tab.width(TabbyChat.mc.fontRenderer.getStringWidth(_alias + "<>") + 8);
+        this.tab.width(TabbyChat.mc.fontRendererObj.getStringWidth(_alias + "<>") + 8);
     }
 
     @Override
@@ -317,8 +316,8 @@ public class ChatChannel {
 
         Gui.drawRect(this.tab.x(), tabY, this.tab.x() + this.tab.width(), tabY + this.tab.height(),
                 0x720000 + (_opacity / 2 << 24));
-        GL11.glEnable(GL11.GL_BLEND);
-        mc.ingameGUI.getChatGUI().drawCenteredString(mc.fontRenderer, this.getDisplayTitle(),
+        GlStateManager.enableBlend();
+        mc.ingameGUI.getChatGUI().drawCenteredString(mc.fontRendererObj, this.getDisplayTitle(),
                 this.tab.x() + this.tab.width() / 2, tabY + 4, 16711680 + (_opacity << 24));
     }
 

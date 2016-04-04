@@ -139,8 +139,8 @@ public class PrefsButton extends GuiButton {
         String cleaned = this.displayString.replaceAll("(?i)\u00A7[0-9A-FK-OR]", "");
         boolean bold = (this.displayString.replaceAll("(?i)\u00A7L", "").length() != this.displayString
                 .length());
-        int badWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(this.displayString);
-        int goodWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(cleaned);
+        int badWidth = Minecraft.getMinecraft().fontRendererObj.getStringWidth(this.displayString);
+        int goodWidth = Minecraft.getMinecraft().fontRendererObj.getStringWidth(cleaned);
         if (bold)
             goodWidth += cleaned.length();
         return (badWidth > goodWidth) ? badWidth - goodWidth : 0;
@@ -149,7 +149,7 @@ public class PrefsButton extends GuiButton {
     @Override
     public void drawButton(Minecraft mc, int cursorX, int cursorY) {
         if (this.visible) {
-            FontRenderer fr = mc.fontRenderer;
+            FontRenderer fr = mc.fontRendererObj;
             drawRect(this.x(), this.y(), this.x() + this.width(), this.y() + this.height(),
                     this.bgcolor);
             boolean hovered = cursorX >= this.x() && cursorY >= this.y()

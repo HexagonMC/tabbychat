@@ -1,14 +1,15 @@
 package acs.tabbychat.gui.context;
 
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
-import java.util.List;
 
 /**
  * Extend this class to create a context menu.<br />
@@ -40,12 +41,12 @@ public abstract class ChatContext extends GuiButton {
         drawBorders();
         if (getDisplayIcon() != null)
             drawIcon();
-        this.drawString(mc.fontRenderer, this.displayString, xPosition + 18, yPosition + 4,
+        this.drawString(mc.fontRendererObj, this.displayString, xPosition + 18, yPosition + 4,
                 getStringColor());
         if (this.getChildren() != null) {
             // This has children.
-            int length = mc.fontRenderer.getCharWidth('>');
-            this.drawString(mc.fontRenderer, ">", xPosition + width - length, yPosition + 4,
+            int length = mc.fontRendererObj.getCharWidth('>');
+            this.drawString(mc.fontRendererObj, ">", xPosition + width - length, yPosition + 4,
                     getStringColor());
             for (ChatContext chat : children.items) {
                 if (isHoveredWithChildren(x, y)) {
@@ -77,14 +78,15 @@ public abstract class ChatContext extends GuiButton {
 
     protected void drawIcon() {
         int x1 = xPosition + 4, y1 = yPosition + 3, x2 = x1 + 9, y2 = y1 + 9;
-        GL11.glColor4f(1F, 1F, 1F, 1F);
+        GlStateManager.color(1F, 1F, 1F, 1F);
         Minecraft.getMinecraft().getTextureManager().bindTexture(getDisplayIcon());
-        Tessellator tess = Tessellator.instance;
-        tess.startDrawingQuads();
-        tess.addVertexWithUV(x1, y1, this.zLevel, 0, 0);
-        tess.addVertexWithUV(x1, y2, this.zLevel, 0, 1);
-        tess.addVertexWithUV(x2, y2, this.zLevel, 1, 1);
-        tess.addVertexWithUV(x2, y1, this.zLevel, 1, 0);
+        Tessellator tess = Tessellator.getInstance();
+        VertexBuffer vertexBuffer = tess.getBuffer();
+        vertexBuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+        vertexBuffer.pos(x1, y1, this.zLevel).tex(0, 0).endVertex();
+        vertexBuffer.pos(x1, y2, this.zLevel).tex(0, 1).endVertex();
+        vertexBuffer.pos(x2, y2, this.zLevel).tex(1, 1).endVertex();
+        vertexBuffer.pos(x2, y1, this.zLevel).tex(1, 0).endVertex();
         tess.draw();
     }
 

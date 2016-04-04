@@ -6,8 +6,10 @@ import acs.tabbychat.util.TabbyChatUtils;
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -52,10 +54,10 @@ public class TCChatFilter {
         this.copyFrom(orig);
     }
 
-    public boolean applyFilterToDirtyChat(IChatComponent input) {
+    public boolean applyFilterToDirtyChat(ITextComponent input) {
 
         // Apply filter
-        Matcher findFilterMatches = this.expressionPattern.matcher(EnumChatFormatting
+        Matcher findFilterMatches = this.expressionPattern.matcher(TextFormatting
                 .getTextWithoutFormattingCodes(input.getUnformattedText()));
         boolean foundMatch = false;
         List<Integer> list = Lists.newArrayList();
@@ -98,7 +100,7 @@ public class TCChatFilter {
 
     public void audioNotification() {
         Minecraft.getMinecraft().thePlayer
-                .playSound(this.audioNotificationSound.file(), 1.0F, 1.0F);
+                .playSound(SoundEvent.soundEventRegistry.getObject(new ResourceLocation(this.audioNotificationSound.file())), 1.0F, 1.0F);
     }
 
     public void compilePattern() {
