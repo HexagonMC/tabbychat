@@ -727,7 +727,7 @@ public class TabbyChat {
                         ITextComponent chat2 = ChatComponentUtils.subComponent(chat, start, end);
                         ITextComponent chat3 = ChatComponentUtils.subComponent(chat, end);
 
-                        Style style = chat2.getChatStyle();
+                        Style style = chat2.getStyle();
                         if (iFilter.getValue().highlightColor != ColorCodeEnum.DEFAULT)
                             style.setColor(iFilter.getValue().highlightColor.toVanilla());
 

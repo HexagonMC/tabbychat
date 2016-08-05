@@ -45,8 +45,8 @@ public class GuiSleepTC extends GuiChatTC {
      * Wakes up the player
      */
     private void playerWakeUp() {
-        NetHandlerPlayClient var1 = mc.thePlayer.sendQueue;
-        var1.addToSendQueue(new CPacketEntityAction(mc.thePlayer, CPacketEntityAction.Action.STOP_SLEEPING));
+        NetHandlerPlayClient var1 = mc.thePlayer.connection;
+        var1.sendPacket(new CPacketEntityAction(mc.thePlayer, CPacketEntityAction.Action.STOP_SLEEPING));
     }
 
     @Override

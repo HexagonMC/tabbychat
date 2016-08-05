@@ -100,7 +100,7 @@ public class TCChatFilter {
 
     public void audioNotification() {
         Minecraft.getMinecraft().thePlayer
-                .playSound(SoundEvent.soundEventRegistry.getObject(new ResourceLocation(this.audioNotificationSound.file())), 1.0F, 1.0F);
+                .playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation(this.audioNotificationSound.file())), 1.0F, 1.0F);
     }
 
     public void compilePattern() {

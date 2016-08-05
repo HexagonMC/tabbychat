@@ -323,8 +323,8 @@ public class GuiChatTC extends GuiChat {
 
         // Deal with hover events
         ITextComponent icc = gnc.getChatComponent(Mouse.getX(), Mouse.getY());
-        if (icc != null && icc.getChatStyle().getChatHoverEvent() != null) {
-            HoverEvent hoverevent = icc.getChatStyle().getChatHoverEvent();
+        if (icc != null && icc.getStyle().getHoverEvent() != null) {
+            HoverEvent hoverevent = icc.getStyle().getHoverEvent();
             if (hoverevent.getAction() == HoverEvent.Action.SHOW_ITEM) {
                 ItemStack itemstack = null;
                 try {
@@ -352,7 +352,7 @@ public class GuiChatTC extends GuiChat {
                             "stats.tooltip.type."
                                     + (statbase.isAchievement() ? "achievement" : "statistics"),
                             new Object[0]);
-                    cct.getChatStyle().setItalic(Boolean.valueOf(true));
+                    cct.getStyle().setItalic(Boolean.valueOf(true));
                     String s = statbase instanceof Achievement ? ((Achievement) statbase)
                             .getDescription() : null;
                     ArrayList<String> arraylist = Lists.newArrayList(new String[] {
@@ -395,7 +395,7 @@ public class GuiChatTC extends GuiChat {
 
     public void func_73893_a(String nameStart, String buffer) {
         if (nameStart.length() >= 1) {
-            this.mc.thePlayer.sendQueue.addToSendQueue(new CPacketTabComplete(nameStart, null, false));
+            this.mc.thePlayer.connection.sendPacket(new CPacketTabComplete(nameStart, null, false));
             this.waitingOnPlayerNames = true;
         }
     }
@@ -805,10 +805,10 @@ public class GuiChatTC extends GuiChat {
                 && (this.contextMenu == null || !contextMenu.isCursorOver(scaled.x, scaled.y))) {
             ITextComponent ccd = this.gnc.getChatComponent(Mouse.getX(), Mouse.getY());
             if (ccd != null) {
-                ClickEvent clickEvent = ccd.getChatStyle().getChatClickEvent();
+                ClickEvent clickEvent = ccd.getStyle().getClickEvent();
                 if (clickEvent != null) {
                     if (isShiftKeyDown()) {
-                        this.inputField2.writeText(ccd.getChatStyle().getChatClickEvent()
+                        this.inputField2.writeText(ccd.getStyle().getClickEvent()
                                 .getValue());
                     } else {
                         URI url;
@@ -890,7 +890,7 @@ public class GuiChatTC extends GuiChat {
                 if (_guibutton.mousePressed(this.mc, _x, _y)) {
                     if (_button == 0) {
                         this.selectedButton2 = _guibutton;
-                        this.mc.thePlayer.playSound(SoundEvent.soundEventRegistry.getObject(new ResourceLocation("random.click")), 1.0F, 1.0F);
+                        this.mc.thePlayer.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("random.click")), 1.0F, 1.0F);
                         this.actionPerformed(_guibutton);
                         return;
                     } else if (_button == 1) {

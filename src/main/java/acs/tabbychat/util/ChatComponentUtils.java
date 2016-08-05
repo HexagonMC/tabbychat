@@ -37,7 +37,7 @@ public class ChatComponentUtils {
         for (ITextComponent next : iter) {
         	ITextComponent comp = new TextComponentString(next.getUnformattedText().replaceAll(regex,
                     replacement));
-            comp.setChatStyle(next.getChatStyle().createShallowCopy());
+            comp.setStyle(next.getStyle().createShallowCopy());
             newChat.appendSibling(comp);
         }
         return newChat;
@@ -85,7 +85,7 @@ public class ChatComponentUtils {
                 chatcomponenttext = new TextComponentString(" ");
             }
             ITextComponent ichatcomponent1 = arraylist1.get(k);
-            String s = ichatcomponent1.getUnformattedTextForChat();
+            String s = ichatcomponent1.getUnformattedComponentText();
             // Fix for when bad coders create chat using a null string
             if (s == null) {
                 s = "";
@@ -98,16 +98,16 @@ public class ChatComponentUtils {
                 s1 = s.substring(l + 1);
                 s = s.substring(0, l + 1);
                 TextComponentString chatcomponenttext1 = new TextComponentString(s1);
-                chatcomponenttext1.setChatStyle(ichatcomponent1.getChatStyle().createShallowCopy());
+                chatcomponenttext1.setStyle(ichatcomponent1.getStyle().createShallowCopy());
                 arraylist1.add(k + 1, chatcomponenttext1);
                 flag2 = true;
             }
             // Second boolean v
-            String s4 = formatString(ichatcomponent1.getChatStyle().getFormattingCode() + s, true);
+            String s4 = formatString(ichatcomponent1.getStyle().getFormattingCode() + s, true);
             s1 = s4.endsWith("\n") ? s4.substring(0, s4.length() - 1) : s4;
             int j1 = fontRenderer.getStringWidth(s1);
             TextComponentString chatcomponenttext2 = new TextComponentString(s1);
-            chatcomponenttext2.setChatStyle(ichatcomponent1.getChatStyle().createShallowCopy());
+            chatcomponenttext2.setStyle(ichatcomponent1.getStyle().createShallowCopy());
 
             if (j + j1 > limit) {
                 String s2 = fontRenderer.trimStringToWidth(s4, limit - j, false);
@@ -126,14 +126,14 @@ public class ChatComponentUtils {
                     }
 
                     TextComponentString chatcomponenttext3 = new TextComponentString(s3);
-                    chatcomponenttext3.setChatStyle(ichatcomponent1.getChatStyle()
+                    chatcomponenttext3.setStyle(ichatcomponent1.getStyle()
                             .createShallowCopy());
                     arraylist1.add(k + 1, chatcomponenttext3);
                 }
 
                 j1 = fontRenderer.getStringWidth(s2);
                 chatcomponenttext2 = new TextComponentString(s2);
-                chatcomponenttext2.setChatStyle(ichatcomponent1.getChatStyle().createShallowCopy());
+                chatcomponenttext2.setStyle(ichatcomponent1.getStyle().createShallowCopy());
                 flag2 = true;
             }
 
@@ -183,27 +183,27 @@ public class ChatComponentUtils {
             if (format != null) {
             	ITextComponent chat1 = new TextComponentString(part.substring(1));
                 if (format.equals(TextFormatting.RESET)) {
-                    chat1.getChatStyle().setColor(TextFormatting.WHITE);
-                    chat1.getChatStyle().setBold(false);
-                    chat1.getChatStyle().setItalic(false);
-                    chat1.getChatStyle().setObfuscated(false);
-                    chat1.getChatStyle().setStrikethrough(false);
-                    chat1.getChatStyle().setUnderlined(false);
+                    chat1.getStyle().setColor(TextFormatting.WHITE);
+                    chat1.getStyle().setBold(false);
+                    chat1.getStyle().setItalic(false);
+                    chat1.getStyle().setObfuscated(false);
+                    chat1.getStyle().setStrikethrough(false);
+                    chat1.getStyle().setUnderlined(false);
                 } else {
-                    chat1.setChatStyle(last.getChatStyle().createDeepCopy());
+                    chat1.setStyle(last.getStyle().createDeepCopy());
                 }
                 if (format.isColor())
-                    chat1.getChatStyle().setColor(format);
+                    chat1.getStyle().setColor(format);
                 if (format.equals(TextFormatting.BOLD))
-                    chat1.getChatStyle().setBold(true);
+                    chat1.getStyle().setBold(true);
                 if (format.equals(TextFormatting.ITALIC))
-                    chat1.getChatStyle().setItalic(true);
+                    chat1.getStyle().setItalic(true);
                 if (format.equals(TextFormatting.UNDERLINE))
-                    chat1.getChatStyle().setUnderlined(true);
+                    chat1.getStyle().setUnderlined(true);
                 if (format.equals(TextFormatting.OBFUSCATED))
-                    chat1.getChatStyle().setObfuscated(true);
+                    chat1.getStyle().setObfuscated(true);
                 if (format.equals(TextFormatting.STRIKETHROUGH))
-                    chat1.getChatStyle().setStrikethrough(true);
+                    chat1.getStyle().setStrikethrough(true);
 
                 newChat.appendSibling(chat1);
 
@@ -226,14 +226,14 @@ public class ChatComponentUtils {
             if (!ichat.getSiblings().isEmpty()) {
                 continue;
             }
-            String text = ichat.getUnformattedTextForChat();
+            String text = ichat.getUnformattedComponentText();
             if (text.length() + pos >= index) {
                 if (found)
                     result.appendSibling(ichat);
                 else {
                     found = true;
                     ITextComponent local = new TextComponentString(text.substring(index - pos));
-                    local.setChatStyle(ichat.getChatStyle().createDeepCopy());
+                    local.setStyle(ichat.getStyle().createDeepCopy());
 
                     result.appendSibling(local);
                 }
@@ -253,10 +253,10 @@ public class ChatComponentUtils {
             if (!ichat.getSiblings().isEmpty()) {
                 continue;
             }
-            String text = ichat.getUnformattedTextForChat();
+            String text = ichat.getUnformattedComponentText();
             if (pos + text.length() >= end) {
             	ITextComponent local = new TextComponentString(text.substring(0, end - pos));
-                local.getChatStyle().setParentStyle(chat.getChatStyle().createDeepCopy());
+                local.getStyle().setParentStyle(chat.getStyle().createDeepCopy());
                 result.appendSibling(local);
                 break;
             } else {

@@ -356,7 +356,7 @@ public class GuiNewChatTC extends GuiNewChat {
                                 if (returnMe instanceof TextComponentString) {
                                     clickYRel += this.mc.fontRendererObj.getStringWidth(this
                                             .func_146235_b(((TextComponentString) returnMe)
-                                                    .getChatComponentText_TextValue()));
+                                                    .getFormattedText()));
 
                                     if (clickYRel > clickXRel)
                                         return returnMe;

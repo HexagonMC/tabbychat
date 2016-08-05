@@ -357,7 +357,7 @@ public class TCSettingsFilters extends TCSettingsGUI {
         if (this.audioNotificationSound.hovered(par1, par2)) {
             this.audioNotificationSound.mouseClicked(par1, par2, par3);
             mc.thePlayer.playSound(
-            		SoundEvent.soundEventRegistry.getObject(new ResourceLocation(((NotificationSoundEnum) audioNotificationSound.getTempValue()).file())), 1.0F,
+            		SoundEvent.REGISTRY.getObject(new ResourceLocation(((NotificationSoundEnum) audioNotificationSound.getTempValue()).file())), 1.0F,
                     1.0F);
         } else
             super.mouseClicked(par1, par2, par3);
