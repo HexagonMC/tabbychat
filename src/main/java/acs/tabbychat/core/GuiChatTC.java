@@ -21,6 +21,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
+import scala.actors.threadpool.Arrays;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
@@ -340,7 +341,7 @@ public class GuiChatTC extends GuiChat {
                     this.drawCreativeTabHoveringText(TextFormatting.RED + "Invalid Item!",
                             cursorX, cursorY);
             } else if (hoverevent.getAction() == HoverEvent.Action.SHOW_TEXT)
-                this.drawCreativeTabHoveringText(hoverevent.getValue().getFormattedText(), cursorX,
+                this.drawHoveringText(Arrays.asList(hoverevent.getValue().getFormattedText().split("\\n")), cursorX,
                         cursorY);
             else if (hoverevent.getAction() == HoverEvent.Action.SHOW_ACHIEVEMENT) {
                 StatBase statbase = StatList.getOneShotStat(hoverevent.getValue()
