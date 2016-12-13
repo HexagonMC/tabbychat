@@ -13,6 +13,7 @@ import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiDisconnected;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiNewChat;
+import net.minecraft.client.gui.GuiUtilRenderComponents;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -354,9 +355,9 @@ public class GuiNewChatTC extends GuiNewChat {
                             while (iter.hasNext()) {
                                 returnMe = (ITextComponent) iter.next();
                                 if (returnMe instanceof TextComponentString) {
-                                    clickYRel += this.mc.fontRendererObj.getStringWidth(this
-                                            .func_146235_b(((TextComponentString) returnMe)
-                                                    .getFormattedText()));
+                                    clickYRel += this.mc.fontRendererObj.getStringWidth(
+                                    		GuiUtilRenderComponents.removeTextColorsIfConfigured(
+                                    				((TextComponentString)returnMe).getText(), false));
 
                                     if (clickYRel > clickXRel)
                                         return returnMe;
@@ -371,11 +372,6 @@ public class GuiNewChatTC extends GuiNewChat {
             }
             return returnMe;
         }
-    }
-
-    private String func_146235_b(String p_146235_1_) {
-        return Minecraft.getMinecraft().gameSettings.chatColours ? p_146235_1_ : TextFormatting
-                .getTextWithoutFormattingCodes(p_146235_1_);
     }
 
     private void func_146237_a(ITextComponent _msg, int id, int tick, boolean backupFlag) {
