@@ -66,7 +66,7 @@ public class ChatButton extends GuiButton {
      * @return
      */
     public int x() {
-        return xPosition;
+        return x;
     }
 
     /**
@@ -75,7 +75,7 @@ public class ChatButton extends GuiButton {
      * @param _x
      */
     public void x(int _x) {
-        xPosition = _x;
+        x = _x;
     }
 
     /**
@@ -84,7 +84,7 @@ public class ChatButton extends GuiButton {
      * @return
      */
     public int y() {
-        return yPosition;
+        return y;
     }
 
     /**
@@ -93,7 +93,7 @@ public class ChatButton extends GuiButton {
      * @param _y
      */
     public void y(int _y) {
-        yPosition = _y;
+        y = _y;
     }
 
     public void clear() {
@@ -122,9 +122,9 @@ public class ChatButton extends GuiButton {
     }
 
     @Override
-    public void drawButton(Minecraft mc, int cursorX, int cursorY) {
+    public void drawButton(Minecraft mc, int cursorX, int cursorY, float partialTicks) {
         if (this.visible) {
-            FontRenderer fr = mc.fontRendererObj;
+            FontRenderer fr = mc.fontRenderer;
             float _mult = mc.gameSettings.chatOpacity * 0.9F + 0.1F;
             int _opacity = (int) (255 * _mult);
             int textOpacity = (TabbyChat.advancedSettings.textIgnoreOpacity.getValue() ? 255

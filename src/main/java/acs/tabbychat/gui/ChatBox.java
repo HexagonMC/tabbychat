@@ -40,7 +40,7 @@ public class ChatBox {
         // Grow virtual screen width/height to counter reduced size due to
         // chat scaling
         float sf = gnc.getScaleSetting();
-        int sh = MathHelper.floor_float((gnc.sr.getScaledHeight() + current.y) / sf - current.y);
+        int sh = MathHelper.floor((gnc.sr.getScaledHeight() + current.y) / sf - current.y);
 
         // Add tab row to tray
         tabTrayHeight += tabHeight;
@@ -526,7 +526,7 @@ public class ChatBox {
         current.height -= moveY;
 
         for (ChatChannel chan : chanObjs.values()) {
-            tabWidth = TabbyChat.mc.fontRendererObj.getStringWidth(chan.getAlias() + "<>") + 8;
+            tabWidth = TabbyChat.mc.fontRenderer.getStringWidth(chan.getAlias() + "<>") + 8;
             if (tabDx + tabWidth > current.width - 6 && tabWidth < current.width - 6) {
                 rows++;
                 if (tabHeight * (rows + 1) > tabTrayHeight) {

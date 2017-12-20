@@ -5,9 +5,9 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
@@ -27,26 +27,26 @@ public abstract class ChatContext extends GuiButton {
     }
 
     @Override
-    public void drawButton(Minecraft mc, int x, int y) {
+    public void drawButton(Minecraft mc, int x, int y, float partialTicks) {
         if (!visible)
             return;
         if (getChildren() != null)
-            children = new ChatContextMenu(this, xPosition + width, yPosition, getChildren());
+            children = new ChatContextMenu(this, x + width, y, getChildren());
 
         this.displayString = this.getDisplayString();
         if (!visible)
             return;
-        Gui.drawRect(xPosition + 1, yPosition + 1, xPosition + width - 1, yPosition + height - 1,
+        Gui.drawRect(x + 1, y + 1, x + width - 1, y + height - 1,
                 getBackgroundColor(isHovered(x, y)));
         drawBorders();
         if (getDisplayIcon() != null)
             drawIcon();
-        this.drawString(mc.fontRendererObj, this.displayString, xPosition + 18, yPosition + 4,
+        this.drawString(mc.fontRenderer, this.displayString, x + 18, y + 4,
                 getStringColor());
         if (this.getChildren() != null) {
             // This has children.
-            int length = mc.fontRendererObj.getCharWidth('>');
-            this.drawString(mc.fontRendererObj, ">", xPosition + width - length, yPosition + 4,
+            int length = mc.fontRenderer.getCharWidth('>');
+            this.drawString(mc.fontRenderer, ">", x + width - length, y + 4,
                     getStringColor());
             for (ChatContext chat : children.items) {
                 if (isHoveredWithChildren(x, y)) {
@@ -60,8 +60,8 @@ public abstract class ChatContext extends GuiButton {
     }
 
     protected boolean isHovered(int x, int y) {
-        return x >= xPosition && x <= xPosition + width && y >= yPosition
-                && y <= yPosition + height;
+        return x >= x && x <= x + width && y >= y
+                && y <= y + height;
     }
 
     protected boolean isHoveredWithChildren(int x, int y) {
@@ -77,11 +77,11 @@ public abstract class ChatContext extends GuiButton {
     }
 
     protected void drawIcon() {
-        int x1 = xPosition + 4, y1 = yPosition + 3, x2 = x1 + 9, y2 = y1 + 9;
+        int x1 = x + 4, y1 = y + 3, x2 = x1 + 9, y2 = y1 + 9;
         GlStateManager.color(1F, 1F, 1F, 1F);
         Minecraft.getMinecraft().getTextureManager().bindTexture(getDisplayIcon());
         Tessellator tess = Tessellator.getInstance();
-        VertexBuffer vertexBuffer = tess.getBuffer();
+        BufferBuilder vertexBuffer = tess.getBuffer();
         vertexBuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
         vertexBuffer.pos(x1, y1, this.zLevel).tex(0, 0).endVertex();
         vertexBuffer.pos(x1, y2, this.zLevel).tex(0, 1).endVertex();
@@ -91,14 +91,14 @@ public abstract class ChatContext extends GuiButton {
     }
 
     protected void drawBorders() {
-        Gui.drawRect(xPosition, yPosition, xPosition + width, yPosition + 1, -0xffffff);
-        Gui.drawRect(xPosition, yPosition, xPosition + 1, yPosition + height, -0xffffff);
-        Gui.drawRect(xPosition, yPosition + height, xPosition + width, yPosition + height - 1,
+        Gui.drawRect(x, y, x + width, y + 1, -0xffffff);
+        Gui.drawRect(x, y, x + 1, y + height, -0xffffff);
+        Gui.drawRect(x, y + height, x + width, y + height - 1,
                 -0xffffff);
-        Gui.drawRect(xPosition + width, yPosition, xPosition + width - 1, yPosition + height,
+        Gui.drawRect(x + width, y, x + width - 1, y + height,
                 -0xffffff);
 
-        Gui.drawRect(xPosition + height, yPosition, xPosition + height + 1, yPosition + height,
+        Gui.drawRect(x + height, y, x + height + 1, y + height,
                 -0xffffff);
     }
 

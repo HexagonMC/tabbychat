@@ -45,7 +45,7 @@ public class TCSettingList extends Gui {
         int i = 0;
         for (Entry entry : getVisible()) {
             entry.setPos(i);
-            entry.drawButton(mc, cursorX, cursorY);
+            entry.drawButton(mc, cursorX, cursorY, 0);
             i++;
         }
     }
@@ -142,7 +142,7 @@ public class TCSettingList extends Gui {
 
     public int getTotalPages() {
         double pages = list.size() / 8D;
-        return MathHelper.ceiling_double_int(pages);
+        return MathHelper.ceil(pages);
     }
 
     public Object getPageNum() {
@@ -247,13 +247,13 @@ public class TCSettingList extends Gui {
         }
 
         @Override
-        public void drawButton(Minecraft mc, int x, int y) {
+        public void drawButton(Minecraft mc, int x, int y, float partialTicks) {
             if (this.isSelected())
                 this.bgcolor = 0xDD999999;
             else
                 this.bgcolor = 0xDD000000;
             this.y(list.y() + (pos * 12));
-            super.drawButton(mc, x, y);
+            super.drawButton(mc, x, y, partialTicks);
         }
 
         public void remove() {

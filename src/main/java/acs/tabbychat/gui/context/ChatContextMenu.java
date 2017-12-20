@@ -69,8 +69,8 @@ public class ChatContextMenu extends Gui {
         int i = 0;
         for (ChatContext item : visible) {
             item.id = i;
-            item.xPosition = xPos;
-            item.yPosition = yPos + i * 15;
+            item.x = xPos;
+            item.y = yPos + i * 15;
             // if(item.yPosition + item.height > sr.getScaledHeight() ||
             // item.yPosition < 0)
             // item.visible = false;
@@ -83,7 +83,7 @@ public class ChatContextMenu extends Gui {
         for (ChatContext item : items) {
             if (!item.enabled && item.getDisabledBehavior() == ChatContext.Behavior.HIDE)
                 continue;
-            item.drawButton(mc, scaled.x, scaled.y);
+            item.drawButton(mc, scaled.x, scaled.y, 0);
         }
     }
 

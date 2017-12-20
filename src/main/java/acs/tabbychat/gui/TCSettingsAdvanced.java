@@ -69,31 +69,31 @@ public class TCSettingsAdvanced extends TCSettingsGUI {
 
         this.chatScrollHistory.setLabelLoc(col1x);
         this.chatScrollHistory.setButtonLoc(
-                col1x + 5 + mc.fontRendererObj.getStringWidth(this.chatScrollHistory.description),
+                col1x + 5 + mc.fontRenderer.getStringWidth(this.chatScrollHistory.description),
                 this.rowY(1));
         this.chatScrollHistory.setButtonDims(30, 11);
 
         this.maxLengthChannelName.setLabelLoc(col1x);
         this.maxLengthChannelName.setButtonLoc(
-                col1x + 5 + mc.fontRendererObj.getStringWidth(this.maxLengthChannelName.description),
+                col1x + 5 + mc.fontRenderer.getStringWidth(this.maxLengthChannelName.description),
                 this.rowY(2));
         this.maxLengthChannelName.setButtonDims(20, 11);
 
         this.multiChatDelay.setLabelLoc(col1x);
         this.multiChatDelay.setButtonLoc(
-                col1x + 5 + mc.fontRendererObj.getStringWidth(this.multiChatDelay.description),
+                col1x + 5 + mc.fontRenderer.getStringWidth(this.multiChatDelay.description),
                 this.rowY(3));
         this.multiChatDelay.setButtonDims(40, 11);
 
         this.chatBoxUnfocHeight.setLabelLoc(col1x);
         this.chatBoxUnfocHeight.setButtonLoc(
-                col1x + 5 + mc.fontRendererObj.getStringWidth(this.chatBoxUnfocHeight.description),
+                col1x + 5 + mc.fontRenderer.getStringWidth(this.chatBoxUnfocHeight.description),
                 this.rowY(4));
         this.chatBoxUnfocHeight.buttonColor = buttonColor;
 
         this.chatFadeTicks.setLabelLoc(col1x);
         this.chatFadeTicks.setButtonLoc(
-                col1x + 5 + mc.fontRendererObj.getStringWidth(this.chatFadeTicks.description),
+                col1x + 5 + mc.fontRenderer.getStringWidth(this.chatFadeTicks.description),
                 this.rowY(5));
         this.chatFadeTicks.buttonColor = buttonColor;
         this.chatFadeTicks.units = "";

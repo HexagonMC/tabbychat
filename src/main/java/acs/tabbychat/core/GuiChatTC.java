@@ -295,7 +295,7 @@ public class GuiChatTC extends GuiChat {
             int sendsX = sr.getScaledWidth() - 12;
             if (MacroKeybindCompat.present)
                 sendsX -= 22;
-            this.fontRendererObj.drawStringWithShadow(requiredSends, sendsX, this.height
+            this.fontRenderer.drawStringWithShadow(requiredSends, sendsX, this.height
                     - inputHeight, 0x707070);
         }
 
@@ -332,13 +332,13 @@ public class GuiChatTC extends GuiChat {
                     NBTBase nbtbase = JsonToNBT.getTagFromJson(hoverevent.getValue()
                             .getUnformattedText());
                     if (nbtbase != null && nbtbase instanceof NBTTagCompound)
-                        itemstack = ItemStack.loadItemStackFromNBT((NBTTagCompound) nbtbase);
+                        itemstack = new ItemStack((NBTTagCompound) nbtbase);
                 } catch (Exception e) {
                 }
                 if (itemstack != null)
                     this.renderToolTip(itemstack, cursorX, cursorY);
                 else
-                    this.drawCreativeTabHoveringText(TextFormatting.RED + "Invalid Item!",
+                    this.drawHoveringText(TextFormatting.RED + "Invalid Item!",
                             cursorX, cursorY);
             } else if (hoverevent.getAction() == HoverEvent.Action.SHOW_TEXT)
                 this.drawHoveringText(Arrays.asList(hoverevent.getValue().getFormattedText().split("\\n")), cursorX,
@@ -360,10 +360,10 @@ public class GuiChatTC extends GuiChat {
                             icc1.getFormattedText(), cct.getFormattedText() });
 
                     if (s != null)
-                        arraylist.addAll(this.fontRendererObj.listFormattedStringToWidth(s, 150));
+                        arraylist.addAll(this.fontRenderer.listFormattedStringToWidth(s, 150));
                     this.drawHoveringText(arraylist, cursorX, cursorY);
                 } else
-                    this.drawCreativeTabHoveringText(TextFormatting.RED
+                    this.drawHoveringText(TextFormatting.RED
                             + "Invalid statistic/achievement!", cursorX, cursorY);
             }
             GlStateManager.disableLighting();
@@ -374,7 +374,7 @@ public class GuiChatTC extends GuiChat {
         for (int i = 0; i < this.buttonList.size(); i++) {
             _button = (GuiButton) this.buttonList.get(i);
             if (_button instanceof PrefsButton && _button.id == 1) {
-                if (mc.thePlayer != null && !mc.thePlayer.isPlayerSleeping()) {
+                if (mc.player != null && !mc.player.isPlayerSleeping()) {
                     this.buttonList.remove(_button);
                     continue;
                 }
@@ -396,7 +396,7 @@ public class GuiChatTC extends GuiChat {
 
     public void func_73893_a(String nameStart, String buffer) {
         if (nameStart.length() >= 1) {
-            this.mc.thePlayer.connection.sendPacket(new CPacketTabComplete(nameStart, null, false));
+            this.mc.player.connection.sendPacket(new CPacketTabComplete(nameStart, null, false));
             this.waitingOnPlayerNames = true;
         }
     }
@@ -562,7 +562,7 @@ public class GuiChatTC extends GuiChat {
         String text = this.defaultInputFieldText;
         if (this.inputField2 != null)
             text = inputField2.getText();
-        this.inputField2 = new GuiTextField(0, this.fontRendererObj, 4, this.height - 12,
+        this.inputField2 = new GuiTextField(0, this.fontRenderer, 4, this.height - 12,
                 textFieldWidth, 12);
         this.inputField2.setMaxStringLength(500);
         this.inputField2.setCanLoseFocus(false);
@@ -576,7 +576,7 @@ public class GuiChatTC extends GuiChat {
 
         GuiTextField placeholder;
         for (int i = 1; i < 3; i++) {
-            placeholder = new GuiTextField(i, this.fontRendererObj, 4, this.height - 12 * (i + 1),
+            placeholder = new GuiTextField(i, this.fontRenderer, 4, this.height - 12 * (i + 1),
                     textFieldWidth, 12);
             placeholder.setMaxStringLength(500);
             placeholder.setCanLoseFocus(false);
@@ -624,8 +624,8 @@ public class GuiChatTC extends GuiChat {
                 cPos += this.inputList.get(i).getText().length();
             }
         }
-        if (this.fontRendererObj.getStringWidth(msg.toString())
-                + this.fontRendererObj.getStringWidth(_chars) < (sr.getScaledWidth() - 20)
+        if (this.fontRenderer.getStringWidth(msg.toString())
+                + this.fontRenderer.getStringWidth(_chars) < (sr.getScaledWidth() - 20)
                 * this.inputList.size()) {
             msg.insert(cPos, _chars);
             this.setText(msg, cPos + _chars.length());
@@ -763,7 +763,7 @@ public class GuiChatTC extends GuiChat {
                 // Keypress will not trigger overflow, send to default input
                 // field
             } else if (this.inputField2.isFocused()
-                    && this.fontRendererObj.getStringWidth(this.inputField2.getText()) < sr
+                    && this.fontRenderer.getStringWidth(this.inputField2.getText()) < sr
                             .getScaledWidth() - 20) {
                 this.inputField2.textboxKeyTyped(_char, _code);
                 // Keypress will trigger overflow, send through helper function
@@ -891,7 +891,7 @@ public class GuiChatTC extends GuiChat {
                 if (_guibutton.mousePressed(this.mc, _x, _y)) {
                     if (_button == 0) {
                         this.selectedButton2 = _guibutton;
-                        this.mc.thePlayer.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("random.click")), 1.0F, 1.0F);
+                        this.mc.player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("random.click")), 1.0F, 1.0F);
                         this.actionPerformed(_guibutton);
                         return;
                     } else if (_button == 1) {
@@ -1022,7 +1022,7 @@ public class GuiChatTC extends GuiChat {
         int _cw;
         StringBuilder bucket = new StringBuilder(_sb.length());
         for (int ind = 0; ind < _sb.length(); ind++) {
-            _cw = this.fontRendererObj.getCharWidth(_sb.charAt(ind));
+            _cw = this.fontRenderer.getCharWidth(_sb.charAt(ind));
             if (_len + _cw > _w) {
                 result.add(bucket.toString());
                 bucket = new StringBuilder(_sb.length());

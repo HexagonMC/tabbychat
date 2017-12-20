@@ -102,7 +102,7 @@ public class PrefsButton extends GuiButton {
      * @return
      */
     public int x() {
-        return xPosition;
+        return x;
     }
 
     /**
@@ -111,7 +111,7 @@ public class PrefsButton extends GuiButton {
      * @param _x
      */
     public void x(int _x) {
-        xPosition = _x;
+        x = _x;
     }
 
     /**
@@ -120,7 +120,7 @@ public class PrefsButton extends GuiButton {
      * @return
      */
     public int y() {
-        return yPosition;
+        return y;
     }
 
     /**
@@ -129,7 +129,7 @@ public class PrefsButton extends GuiButton {
      * @param _y
      */
     public void y(int _y) {
-        yPosition = _y;
+        y = _y;
     }
 
     /**
@@ -139,17 +139,17 @@ public class PrefsButton extends GuiButton {
         String cleaned = this.displayString.replaceAll("(?i)\u00A7[0-9A-FK-OR]", "");
         boolean bold = (this.displayString.replaceAll("(?i)\u00A7L", "").length() != this.displayString
                 .length());
-        int badWidth = Minecraft.getMinecraft().fontRendererObj.getStringWidth(this.displayString);
-        int goodWidth = Minecraft.getMinecraft().fontRendererObj.getStringWidth(cleaned);
+        int badWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(this.displayString);
+        int goodWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(cleaned);
         if (bold)
             goodWidth += cleaned.length();
         return (badWidth > goodWidth) ? badWidth - goodWidth : 0;
     }
 
     @Override
-    public void drawButton(Minecraft mc, int cursorX, int cursorY) {
+    public void drawButton(Minecraft mc, int cursorX, int cursorY, float partialTicks) {
         if (this.visible) {
-            FontRenderer fr = mc.fontRendererObj;
+            FontRenderer fr = mc.fontRenderer;
             drawRect(this.x(), this.y(), this.x() + this.width(), this.y() + this.height(),
                     this.bgcolor);
             boolean hovered = cursorX >= this.x() && cursorY >= this.y()

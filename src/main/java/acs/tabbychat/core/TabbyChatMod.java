@@ -34,7 +34,7 @@ public class TabbyChatMod {
 
     @SubscribeEvent
     public void onTick(RenderTickEvent event) {
-        if (!event.phase.equals(Phase.START) && Minecraft.getMinecraft().theWorld != null) {
+        if (!event.phase.equals(Phase.START) && Minecraft.getMinecraft().world != null) {
             onTickInGui(Minecraft.getMinecraft());
         }
     }

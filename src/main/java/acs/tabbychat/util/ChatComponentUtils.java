@@ -21,7 +21,7 @@ import com.google.common.collect.Lists;
  */
 public class ChatComponentUtils {
 
-    private static FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+    private static FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 
     /**
      * Replaces all instances of the given word.

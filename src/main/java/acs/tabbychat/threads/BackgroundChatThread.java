@@ -64,7 +64,7 @@ public class BackgroundChatThread extends Thread
         {
             if (sendPart.length() + toSplit[word].length() + suffix > 100)
             {
-                mc.thePlayer.sendChatMessage(cmdPrefix + sendPart.toString().trim());
+                mc.player.sendChatMessage(cmdPrefix + sendPart.toString().trim());
                 try
                 {
                     Thread.sleep(Integer.parseInt(TabbyChat.advancedSettings.multiChatDelay
@@ -104,7 +104,7 @@ public class BackgroundChatThread extends Thread
                                 String.class);
                     }
                     final Object instance = clntCmdHndlr.getField("instance").get(null);
-                    final int value = (Integer) exeCmd.invoke(instance, mc.thePlayer, message);
+                    final int value = (Integer) exeCmd.invoke(instance, mc.player, message);
                     if (value == 1)
                         return;
                 }
@@ -114,7 +114,7 @@ public class BackgroundChatThread extends Thread
                             .warn("Oops, something went wrong while checking the message for Client Commands");
                     e.printStackTrace();
                 }
-            mc.thePlayer.sendChatMessage(message.trim());
+            mc.player.sendChatMessage(message.trim());
         }
     }
 }

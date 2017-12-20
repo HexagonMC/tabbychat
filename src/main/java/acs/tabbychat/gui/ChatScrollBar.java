@@ -46,8 +46,8 @@ public class ChatScrollBar {
     }
 
     private static void update() {
-        barHeight = MathHelper.floor_float(5 * gnc.getScaleSetting());
-        barWidth = MathHelper.floor_float(5 * gnc.getScaleSetting());
+        barHeight = MathHelper.floor(5 * gnc.getScaleSetting());
+        barWidth = MathHelper.floor(5 * gnc.getScaleSetting());
 
         barX = ChatBox.current.width - barWidth - 2;
         barBottomY = 0;

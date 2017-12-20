@@ -42,11 +42,11 @@ public class TCSettingEnum extends TCSetting implements ITCSetting {
         drawRect(this.x() + 1, this.y() + 1, this.x() + this.width() - 1, this.y() + this.height()
                 - 1, 0xff000000);
 
-        this.drawCenteredString(mc.fontRendererObj, this.tempValue.toString(), centerX, this.y() + 2,
+        this.drawCenteredString(mc.fontRenderer, this.tempValue.toString(), centerX, this.y() + 2,
                 labelColor);
 
-        this.drawCenteredString(mc.fontRendererObj, this.description,
-                this.labelX + mc.fontRendererObj.getStringWidth(this.description) / 2, this.y()
+        this.drawCenteredString(mc.fontRenderer, this.description,
+                this.labelX + mc.fontRenderer.getStringWidth(this.description) / 2, this.y()
                         + (this.height() - 6) / 2, labelColor);
     }
 

@@ -11,21 +11,21 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 
-version = "1.10.2-" + getVersion()
+version = "1.12.2-" + getVersion()
 group = "acs.tabbychat"
 archivesBaseName = "TabbyChat"
 
 minecraft {
-    version = "1.10.2-12.18.1.2013"
+    version = "1.12.2-14.23.1.2578"
     runDir = "run"
-    mappings = "snapshot_20160518"
+    mappings = "snapshot_20171220"
 }
 
 processResources {

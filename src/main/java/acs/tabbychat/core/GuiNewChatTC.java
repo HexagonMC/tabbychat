@@ -113,7 +113,7 @@ public class GuiNewChatTC extends GuiNewChat {
     }
 
     @Override
-    public void clearChatMessages() {
+    public void clearChatMessages(boolean p_146231_1_) {
         if (this.chatLines == null || this.backupLines == null)
             return;
         chatWriteLock.lock();
@@ -193,21 +193,21 @@ public class GuiNewChatTC extends GuiNewChat {
             }
             chatOpen = this.getChatOpen();
             if (numLinesTotal == 0 && !chatOpen) {
-                this.mc.fontRendererObj.setUnicodeFlag(TabbyChat.defaultUnicode);
+                this.mc.fontRenderer.setUnicodeFlag(TabbyChat.defaultUnicode);
                 return;
             }
 
             if (tc.enabled()) {
-                maxDisplayedLines = MathHelper.floor_float(ChatBox.getChatHeight() / 9.0f);
+                maxDisplayedLines = MathHelper.floor(ChatBox.getChatHeight() / 9.0f);
                 if (!chatOpen)
                     maxDisplayedLines = MathHelper
-                            .floor_float(TabbyChat.advancedSettings.chatBoxUnfocHeight.getValue()
+                            .floor(TabbyChat.advancedSettings.chatBoxUnfocHeight.getValue()
                                     * ChatBox.getChatHeight() / 900.0f);
                 this.chatWidth = ChatBox.getChatWidth();
                 fadeTicks = TabbyChat.advancedSettings.chatFadeTicks.getValue().intValue();
             } else {
                 maxDisplayedLines = this.getLineCount();
-                this.chatWidth = MathHelper.ceiling_float_int(this.getChatWidth() / chatScaling);
+                this.chatWidth = MathHelper.ceil(this.getChatWidth() / chatScaling);
             }
             GlStateManager.pushMatrix();
             // Reset the matrix to default in case someone else messed with
@@ -299,10 +299,10 @@ public class GuiNewChatTC extends GuiNewChat {
                             int textOpacity = (TabbyChat.advancedSettings.textIgnoreOpacity
                                     .getValue() ? 255 : currentOpacity);
                             if (msgList.get(i).getUpdatedCounter() < 0) {
-                                this.mc.fontRendererObj.drawString(_chat, xOrigin,
+                                this.mc.fontRenderer.drawString(_chat, xOrigin,
                                         yOrigin + 1, 0x888888 + (textOpacity << 24));
                             } else
-                                this.mc.fontRendererObj.drawString(_chat, xOrigin,
+                                this.mc.fontRenderer.drawString(_chat, xOrigin,
                                         yOrigin + 1, 0xffffff + (textOpacity << 24));
                             GlStateManager.disableAlpha();;
                         }
@@ -341,9 +341,9 @@ public class GuiNewChatTC extends GuiNewChat {
                     int displayedLines = Math.min(this.getHeightSetting() / 9,
                             this.chatLines.size());
                     if (clickXRel <= ChatBox.getChatWidth()
-                            && clickYRel < this.mc.fontRendererObj.FONT_HEIGHT * displayedLines
+                            && clickYRel < this.mc.fontRenderer.FONT_HEIGHT * displayedLines
                                     + displayedLines) {
-                        int lineIndex = clickYRel / this.mc.fontRendererObj.FONT_HEIGHT
+                        int lineIndex = clickYRel / this.mc.fontRenderer.FONT_HEIGHT
                                 + this.scrollOffset;
                         if (lineIndex < displayedLines + this.scrollOffset
                                 && this.chatLines.get(lineIndex) != null) {
@@ -355,7 +355,7 @@ public class GuiNewChatTC extends GuiNewChat {
                             while (iter.hasNext()) {
                                 returnMe = (ITextComponent) iter.next();
                                 if (returnMe instanceof TextComponentString) {
-                                    clickYRel += this.mc.fontRendererObj.getStringWidth(
+                                    clickYRel += this.mc.fontRenderer.getStringWidth(
                                     		GuiUtilRenderComponents.removeTextColorsIfConfigured(
                                     				((TextComponentString)returnMe).getText(), false));
 
@@ -391,7 +391,7 @@ public class GuiNewChatTC extends GuiNewChat {
             ChatBox.getMinChatWidth();
         }
         if (TabbyChat.generalSettings.timeStampEnable.getValue())
-            mc.fontRendererObj.getStringWidth(TabbyChat.generalSettings.timeStampStyle.getValue()
+            mc.fontRenderer.getStringWidth(TabbyChat.generalSettings.timeStampStyle.getValue()
                     .toString());
 
         // Add chatlines to appropriate lists

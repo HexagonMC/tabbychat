@@ -92,7 +92,7 @@ abstract class TCSettingsGUI extends GuiScreen implements ITCSettingsGUI {
         for (int i = 0; i < ScreenList.size(); i++) {
             if (ScreenList.get(i) == this) {
                 int curWidth;
-                int tabDist = Math.max(mc.fontRendererObj.getStringWidth(ScreenList.get(i).name)
+                int tabDist = Math.max(mc.fontRenderer.getStringWidth(ScreenList.get(i).name)
                         + MARGIN - 40, 25);
                 if (0 <= this.lastOpened && this.lastOpened <= 5) {
                     curWidth = 45 + (this.lastOpened * tabDist) / 5;
@@ -102,8 +102,8 @@ abstract class TCSettingsGUI extends GuiScreen implements ITCSettingsGUI {
                 }
                 drawRect(absLeft - curWidth + 45, effTop + 30 * i, absLeft + 45, effTop + 30 * i
                         + 20, ScreenList.get(i).bgcolor);
-                this.drawString(mc.fontRendererObj,
-                        mc.fontRendererObj.trimStringToWidth(ScreenList.get(i).name, curWidth - 5),
+                this.drawString(mc.fontRenderer,
+                        mc.fontRenderer.trimStringToWidth(ScreenList.get(i).name, curWidth - 5),
                         effLeft - curWidth + 45, effTop + 6 + 30 * i, 0xffffff);
             } else {
                 drawRect(absLeft, effTop + 30 * i, absLeft + 45, effTop + 30 * i + 20,
@@ -111,7 +111,7 @@ abstract class TCSettingsGUI extends GuiScreen implements ITCSettingsGUI {
             }
         }
         for (int i = 0; i < this.buttonList.size(); i++) {
-            ((GuiButton) this.buttonList.get(i)).drawButton(mc, x, y);
+            ((GuiButton) this.buttonList.get(i)).drawButton(mc, x, y, 0);
         }
     }
 
@@ -159,7 +159,7 @@ abstract class TCSettingsGUI extends GuiScreen implements ITCSettingsGUI {
             ScreenList.get(i).name = I18n.format(ScreenList.get(i).propertyPrefix + ".name");
             if (ScreenList.get(i) != this) {
                 this.buttonList.add(new PrefsButton(ScreenList.get(i).id, effLeft, effTop + 30 * i,
-                        45, 20, mc.fontRendererObj.trimStringToWidth(ScreenList.get(i).name, 35)
+                        45, 20, mc.fontRenderer.trimStringToWidth(ScreenList.get(i).name, 35)
                                 + "..."));
                 ((PrefsButton) this.buttonList.get(this.buttonList.size() - 1)).bgcolor = 0x00000000;
             }

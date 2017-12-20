@@ -103,20 +103,20 @@ public class ChatChannelGUI extends GuiScreen {
         // Draw main background and title
         drawRect(leftX, topY, leftX + this.displayWidth, topY + this.displayHeight, 0x88000000);
         drawRect(leftX, topY + 14, leftX + this.displayWidth, topY + 15, 0x88ffffff);
-        this.drawString(mc.fontRendererObj, this.title, leftX + 3, topY + 3, 0xaaaaaa);
+        this.drawString(mc.fontRenderer, this.title, leftX + 3, topY + 3, 0xaaaaaa);
 
         // Draw tab position info
-        this.drawString(mc.fontRendererObj, Integer.toString(this.position), rightX - 34, topY + 22,
+        this.drawString(mc.fontRenderer, Integer.toString(this.position), rightX - 34, topY + 22,
                 0xffffff);
-        this.drawString(mc.fontRendererObj, I18n.format("settings.channel.position"), rightX - 55
-                - mc.fontRendererObj.getStringWidth(I18n.format("settings.channel.position")),
+        this.drawString(mc.fontRenderer, I18n.format("settings.channel.position"), rightX - 55
+                - mc.fontRenderer.getStringWidth(I18n.format("settings.channel.position")),
                 topY + 22, 0xffffff);
-        this.drawString(mc.fontRendererObj, I18n.format("settings.channel.of") + " "
+        this.drawString(mc.fontRenderer, I18n.format("settings.channel.of") + " "
                 + this.tc.channelMap.size(), rightX - 34, topY + 35, 0xffffff);
 
         // Draw buttons
         for (int i = 0; i < this.buttonList.size(); i++) {
-            ((GuiButton) this.buttonList.get(i)).drawButton(mc, _x, _y);
+            ((GuiButton) this.buttonList.get(i)).drawButton(mc, _x, _y, 0);
         }
     }
 
@@ -145,7 +145,7 @@ public class ChatChannelGUI extends GuiScreen {
         // Define settings buttons
         this.alias.setLabelLoc(leftX + 15);
         this.alias.setButtonLoc(
-                leftX + 20 + mc.fontRendererObj.getStringWidth(this.alias.description), topY + 20);
+                leftX + 20 + mc.fontRenderer.getStringWidth(this.alias.description), topY + 20);
         this.alias.setButtonDims(70, 11);
         this.buttonList.add(this.alias);
 
@@ -155,7 +155,7 @@ public class ChatChannelGUI extends GuiScreen {
 
         this.cmdPrefix.setLabelLoc(leftX + 15);
         this.cmdPrefix.setButtonLoc(
-                leftX + 20 + mc.fontRendererObj.getStringWidth(this.cmdPrefix.description), topY + 57);
+                leftX + 20 + mc.fontRenderer.getStringWidth(this.cmdPrefix.description), topY + 57);
         this.cmdPrefix.setButtonDims(100, 11);
         this.buttonList.add(this.cmdPrefix);
 

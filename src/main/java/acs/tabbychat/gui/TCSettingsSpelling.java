@@ -103,7 +103,7 @@ public class TCSettingsSpelling extends TCSettingsGUI {
         this.spellingList.width(100);
         this.spellingList.height(96);
 
-        this.wordInput = new GuiTextField(0, mc.fontRendererObj, col1x, rowY(6), 75, 12);
+        this.wordInput = new GuiTextField(0, mc.fontRenderer, col1x, rowY(6), 75, 12);
         this.wordInput.setCanLoseFocus(true);
 
         this.open.displayString = I18n.format("settings.spelling.opendictionary");
@@ -138,10 +138,10 @@ public class TCSettingsSpelling extends TCSettingsGUI {
         super.drawScreen(x, y, f);
         this.wordInput.drawTextBox();
         this.spellingList.drawList(mc, x, y);
-        this.drawString(fontRendererObj, I18n.format("settings.spelling.userdictionary"), col1x,
+        this.drawString(fontRenderer, I18n.format("settings.spelling.userdictionary"), col1x,
                 rowY(3), 0xffffff);
         this.drawString(
-                fontRendererObj,
+                fontRenderer,
                 I18n.format("book.pageIndicator", this.spellingList.getPageNum(),
                         this.spellingList.getTotalPages()), col2x, rowY(3), 0xffffff);
     }

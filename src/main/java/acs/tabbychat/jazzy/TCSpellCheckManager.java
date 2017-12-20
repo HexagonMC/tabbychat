@@ -90,9 +90,9 @@ public class TCSpellCheckManager {
 
                 if (wordIndex + errLength > input.length()) {
                     // Misspelled word spans line break
-                    x += Minecraft.getMinecraft().fontRendererObj.getStringWidth(input.substring(0,
+                    x += Minecraft.getMinecraft().fontRenderer.getStringWidth(input.substring(0,
                             wordIndex));
-                    width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(input.substring(
+                    width = Minecraft.getMinecraft().fontRenderer.getStringWidth(input.substring(
                             wordIndex, input.length()));
                     this.drawUnderline(screen, x, y, width);
 
@@ -105,13 +105,13 @@ public class TCSpellCheckManager {
                             return;
                         y += 12;
                         x = 4;
-                        width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(input
+                        width = Minecraft.getMinecraft().fontRenderer.getStringWidth(input
                                 .substring(0, remainder));
                     }
                 } else {
-                    x += Minecraft.getMinecraft().fontRendererObj.getStringWidth(input.substring(0,
+                    x += Minecraft.getMinecraft().fontRenderer.getStringWidth(input.substring(0,
                             wordIndex));
-                    width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(error.getValue());
+                    width = Minecraft.getMinecraft().fontRenderer.getStringWidth(error.getValue());
                 }
 
                 this.drawUnderline(screen, x, y, width);

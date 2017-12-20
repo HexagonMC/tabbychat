@@ -55,19 +55,19 @@ abstract class TCSetting extends GuiButton implements ITCSetting {
     }
 
     public int x() {
-        return xPosition;
+        return x;
     }
 
     public void x(int _x) {
-        xPosition = _x;
+        x = _x;
     }
 
     public int y() {
-        return yPosition;
+        return y;
     }
 
     public void y(int _y) {
-        yPosition = _y;
+        y = _y;
     }
 
     @Override
